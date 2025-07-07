@@ -3105,7 +3105,7 @@ body {
     color: white;
 }
 
-/* ===================== COPY TEMPLATES SYSTEM v2.2 ===================== */
+/* ===================== COPY TEMPLATES SYSTEM v4.0 - IA ESPECÍFICA ===================== */
 .template-buttons {
     background: rgba(59, 130, 246, 0.08);
     border: 1px solid #3b82f6;
@@ -3121,7 +3121,14 @@ body {
     margin-top: 10px;
 }
 
-.btn-template {
+.ai-template-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.btn-template, .btn-ai-template, .btn-ab-template {
     background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
     color: white;
     border: none;
@@ -3138,13 +3145,13 @@ body {
     box-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
 }
 
-.btn-template:hover {
+.btn-template:hover, .btn-ai-template:hover, .btn-ab-template:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
     background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
 }
 
-.btn-template:active {
+.btn-template:active, .btn-ai-template:active, .btn-ab-template:active {
     transform: translateY(0);
 }
 
@@ -3160,6 +3167,14 @@ body {
     background: linear-gradient(135deg, #ea4335 0%, #d33b27 100%);
 }
 
+.btn-ai-template {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+}
+
+.btn-ab-template {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
 /* Notificación de copiado */
 @keyframes slideInRight {
     from {
@@ -3172,15 +3187,182 @@ body {
     }
 }
 
+/* ===================== MODALES IA ESPECÍFICA ===================== */
+.template-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.template-modal .modal-content {
+    background: white;
+    border-radius: 12px;
+    max-width: 800px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.template-modal .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.template-modal .modal-header h3 {
+    margin: 0;
+    color: #1f2937;
+    font-size: 1.25rem;
+}
+
+.template-modal .close-modal {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #6b7280;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.template-modal .close-modal:hover {
+    background: #f3f4f6;
+    color: #1f2937;
+}
+
+.template-modal .modal-body {
+    padding: 20px;
+}
+
+.template-modal .template-result textarea {
+    width: 100%;
+    height: 400px;
+    padding: 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    resize: vertical;
+    background: #f8fafc;
+}
+
+.template-modal .template-actions {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.template-modal .btn-primary {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.template-modal .btn-secondary {
+    background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.template-modal .btn-accent {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.template-modal .btn-primary:hover,
+.template-modal .btn-secondary:hover,
+.template-modal .btn-accent:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.template-modal .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f4f6;
+    border-top: 4px solid #3b82f6;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+.template-modal .type-btn {
+    padding: 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    font-weight: 600;
+    text-align: left;
+    transition: all 0.3s ease;
+}
+
+.template-modal .type-btn:hover {
+    background: #f8fafc;
+    border-color: #3b82f6;
+    transform: translateY(-1px);
+}
+
 /* Mobile responsive */
 @media (max-width: 768px) {
     .template-buttons-grid {
         grid-template-columns: 1fr;
     }
     
-    .btn-template {
+    .ai-template-buttons {
+        grid-template-columns: 1fr;
+    }
+    
+    .btn-template, .btn-ai-template, .btn-ab-template {
         width: 100%;
         padding: 12px;
+    }
+    
+    .template-modal .modal-content {
+        width: 95%;
+        max-height: 90vh;
+    }
+    
+    .template-modal .template-actions {
+        flex-direction: column;
+    }
+    
+    .template-modal .template-result textarea {
+        height: 300px;
     }
 }
 /* ===================== PROFIT CALCULATOR STYLES CORREGIDOS ===================== */

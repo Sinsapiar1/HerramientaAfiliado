@@ -5614,11 +5614,18 @@ const CopyTemplateSystem = {
     // Generadores inteligentes basados en datos de IA
     generators: {
         facebook: (producto, nicho) => {
-            // EXTRAER datos que YA vienen de la IA
+            // EXTRAER datos ESPECÍFICOS que YA vienen de la IA
             const painPoints = producto.painPoints || '';
             const emociones = producto.emociones || '';
             const triggers = producto.triggers || '';
             const descripcion = producto.descripcion || '';
+            
+            // NUEVOS DATOS ESPECÍFICOS disponibles
+            const estacionalidad = producto.estacionalidad || '';
+            const horarioOptimo = producto.horarioOptimo || '';
+            const competenciaNivel = producto.competenciaNivel || '';
+            const timingOptimo = producto.timingOptimo || '';
+            const estrategia = producto.estrategia || '';
             
             // PARSEAR inteligentemente lo que ya tenemos
             const painPointsArray = painPoints.split(/[,.]/).filter(p => p.trim());
@@ -5666,7 +5673,7 @@ const CopyTemplateSystem = {
             
             const hook = hooks[Math.floor(Math.random() * hooks.length)];
             
-            // TEMPLATE OPTIMIZADO
+            // TEMPLATE OPTIMIZADO CON DATOS ESPECÍFICOS
             return `${hook}
 
 ${descripcion}
@@ -5683,19 +5690,33 @@ ${producto.comision ? `• Tu ganancia: ${producto.comision} por venta` : ''}
 
 ${triggersArray.length > 0 ? `\n⚡ ACTÚA AHORA si:\n${triggersArray.map(t => `• ${t.trim()}`).join('\n')}\n` : ''}
 
+${timingOptimo ? `\n⏰ TIMING PERFECTO: ${timingOptimo}\n` : ''}
+${estacionalidad ? `📅 MOMENTO IDEAL: ${estacionalidad}\n` : ''}
+${competenciaNivel ? `🎯 COMPETENCIA: ${competenciaNivel} - Tu oportunidad es AHORA\n` : ''}
+
 🎁 BONUS GRATIS (Solo hoy):
 - Guía de inicio rápido (Valor $47)
 - Acceso a grupo VIP (Valor $97)
 - Actualizaciones de por vida (Valor $197)
 
 ⏰ Esta oferta expira en 24 horas
+${horarioOptimo ? `📱 Mejor momento para publicar: ${horarioOptimo}` : ''}
 
 👉 Haz clic en "Más información" y transforma tu vida HOY
+
+${estrategia ? `\n💡 ESTRATEGIA ESPECÍFICA:\n${estrategia.substring(0, 200)}...\n` : ''}
 
 #${nicho.replace(/\s+/g, '')} #TransformaciónReal #${new Date().getFullYear()}`;
         },
 
         google: (producto, nicho) => {
+            // EXTRAER datos específicos del análisis
+            const estacionalidad = producto.estacionalidad || '';
+            const horarioOptimo = producto.horarioOptimo || '';
+            const competenciaNivel = producto.competenciaNivel || '';
+            const cpaEstimado = producto.cpaEstimado || '';
+            const roiReal = producto.roiReal || '';
+            
             // EXTRAER keywords inteligentemente
             const keywords = new Set(); // Usar Set para evitar duplicados
             
@@ -5767,19 +5788,33 @@ ${Array.from(keywords).slice(0, 10).map(k => `• ${k}`).join('\n')}
 - ${nicho} barato
 - ${nicho} online
 
-📊 CONFIGURACIÓN RECOMENDADA:
+📊 CONFIGURACIÓN RECOMENDADA ESPECÍFICA:
 - Tipo de campaña: Search (Búsqueda)
 - Estrategia: Maximizar conversiones
 - Presupuesto diario: $20-50
-- CPC máximo: $0.50-2.00 (según competencia)
+${cpaEstimado ? `- CPA objetivo: ${cpaEstimado}` : '- CPC máximo: $0.50-2.00'}
+${roiReal ? `- ROI esperado: ${roiReal}` : ''}
+${competenciaNivel ? `- Nivel competencia: ${competenciaNivel}` : ''}
 
-💡 BASADO EN TU ANÁLISIS:
+${estacionalidad ? `📅 TIMING ESPECÍFICO:\n${estacionalidad}\n` : ''}
+${horarioOptimo ? `⏰ HORARIOS ÓPTIMOS:\n${horarioOptimo}\n` : ''}
+
+💡 ANÁLISIS ESPECÍFICO APLICADO:
 Pain Points detectados: ${producto.painPoints || 'General'}
 Emociones target: ${producto.emociones || 'Deseo de cambio'}
-Triggers principales: ${producto.triggers || 'Urgencia'}`;
+Triggers principales: ${producto.triggers || 'Urgencia'}
+${competenciaNivel ? `Competencia actual: ${competenciaNivel}` : ''}
+${estacionalidad ? `Estacionalidad: ${estacionalidad}` : ''}`;
         },
 
         email: (producto, nicho) => {
+            // DATOS ESPECÍFICOS del análisis
+            const estacionalidad = producto.estacionalidad || '';
+            const horarioOptimo = producto.horarioOptimo || '';
+            const timingOptimo = producto.timingOptimo || '';
+            const competenciaNivel = producto.competenciaNivel || '';
+            const estrategia = producto.estrategia || '';
+            
             // DATOS INTELIGENTES del producto
             const dolor = producto.painPoints ? 
                 producto.painPoints.split(/[,.]/).filter(p => p.trim())[0] : 
@@ -5853,6 +5888,9 @@ P.D. Carlos me pidió que te dijera: "${trigger ? 'Si ' + trigger + ', este es t
 
 P.D.2. Los próximos 10 que se registren reciben una sesión 1-a-1 GRATIS conmigo (valor $197).
 
+${timingOptimo ? `\nP.D.3. TIMING PERFECTO: ${timingOptimo}` : ''}
+${estacionalidad ? `\nP.D.4. MOMENTO IDEAL: ${estacionalidad}` : ''}
+
 ------- EMAIL 2: URGENCIA + PRUEBA -------
 
 Asunto: 🔴 Quedan 8 horas (mira esto antes que sea tarde)
@@ -5915,7 +5953,12 @@ Tu decides.
 
 [Tu nombre]
 
-💰 GARANTÍA TOTAL: Si no ves resultados en 30 días, devolución del 100%`;
+💰 GARANTÍA TOTAL: Si no ves resultados en 30 días, devolución del 100%
+
+${estrategia ? `\n------- BONUS: ESTRATEGIA ESPECÍFICA -------\n\n${estrategia.substring(0, 300)}...\n\nEsta estrategia está incluida GRATIS con tu compra.` : ''}
+
+${horarioOptimo ? `\n📱 MEJOR MOMENTO PARA ENVIAR: ${horarioOptimo}` : ''}
+${competenciaNivel ? `\n🎯 NIVEL DE COMPETENCIA: ${competenciaNivel} - Ventaja competitiva clara` : ''}`;
         }
     },
 
@@ -6038,6 +6081,18 @@ Tu decides.
                         📧 Email Sequence
                     </button>
                 </div>
+                <div class="ai-template-buttons" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                    <button class="btn-ai-template" 
+                            style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: white; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.9rem;"
+                            onclick="CopyTemplateSystem.generateAITemplate(${index}, '${nicho.replace(/'/g, "\\'")}')">
+                        🤖 IA Específica
+                    </button>
+                    <button class="btn-ab-template" 
+                            style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.9rem;"
+                            onclick="CopyTemplateSystem.generateABTemplate(${index}, '${nicho.replace(/'/g, "\\'")}')">
+                        🔄 A/B Testing
+                    </button>
+                </div>
             `;
             
             // Encontrar dónde insertar
@@ -6063,11 +6118,12 @@ Tu decides.
         console.log('Botones de templates agregados exitosamente');
     },
 
-    // NUEVA FUNCIÓN: Generar copy con IA
+    // NUEVA FUNCIÓN: Generar copy con IA ULTRA-ESPECÍFICA
     generateAICopy: async (producto, nicho, tipo) => {
         const prompt = `
-Actúa como COPYWRITER EXPERTO en marketing de afiliados. Basándote en este análisis de producto:
+Actúa como COPYWRITER EXPERTO en marketing de afiliados especializado en ${nicho}. 
 
+ANÁLISIS ULTRA-ESPECÍFICO DEL PRODUCTO:
 PRODUCTO: ${producto.nombre}
 NICHO: ${nicho}
 PRECIO: ${producto.precio}
@@ -6077,23 +6133,335 @@ EMOCIONES: ${producto.emociones}
 TRIGGERS: ${producto.triggers}
 DESCRIPCIÓN: ${producto.descripcion}
 
-Genera un copy de ${tipo} LISTO PARA COPIAR Y PEGAR que:
-- Use los pain points y emociones EXACTOS detectados
-- Sea 100% congruente con el análisis
-- Maximice conversiones
+DATOS ESPECÍFICOS DEL MERCADO:
+ESTACIONALIDAD: ${producto.estacionalidad || 'No especificada'}
+TIMING ÓPTIMO: ${producto.timingOptimo || 'No especificado'}
+HORARIO ÓPTIMO: ${producto.horarioOptimo || 'No especificado'}
+COMPETENCIA: ${producto.competenciaNivel || 'No especificada'}
+ESTRATEGIA ESPECÍFICA: ${producto.estrategia || 'No especificada'}
+CPA ESTIMADO: ${producto.cpaEstimado || 'No especificado'}
+ROI REAL: ${producto.roiReal || 'No especificado'}
+
+MISIÓN: Genera un copy de ${tipo} ULTRA-ESPECÍFICO que:
+- Use TODOS los datos específicos disponibles
+- Aproveche el timing y estacionalidad exactos
+- Considere el nivel de competencia actual
+- Incluya la estrategia específica detectada
+- Sea 100% congruente con el análisis contextualizado
+- Maximice conversiones para este contexto específico
 - Tenga la longitud correcta para ${tipo}
 - Use emojis estratégicamente
-- Incluya urgencia y escasez
+- Incluya urgencia basada en timing real
 
-IMPORTANTE: Devuelve SOLO el copy, sin explicaciones ni introducciones.`;
+IMPORTANTE: Devuelve SOLO el copy optimizado, sin explicaciones.`;
 
         try {
             const response = await APIManager.callGemini(prompt);
             return response;
         } catch (error) {
             console.error('Error generando copy con IA:', error);
-            // Fallback a generador local
+            // Fallback a generador local mejorado
             return CopyTemplateSystem.generators[tipo](producto, nicho);
+        }
+    },
+
+    // NUEVA FUNCIÓN: Generar copy A/B Testing
+    generateABVariations: async (producto, nicho, tipo) => {
+        const prompt = `
+Actúa como EXPERTO EN A/B TESTING para marketing de afiliados.
+
+Basándote en este análisis específico:
+PRODUCTO: ${producto.nombre}
+NICHO: ${nicho}
+DATOS ESPECÍFICOS: ${producto.estacionalidad}, ${producto.timingOptimo}, ${producto.competenciaNivel}
+
+Genera 3 VARIACIONES DIFERENTES de copy para ${tipo} que:
+1. VARIACIÓN A: Enfoque en urgencia y escasez
+2. VARIACIÓN B: Enfoque en beneficios y transformación  
+3. VARIACIÓN C: Enfoque en prueba social y autoridad
+
+Cada variación debe:
+- Usar los datos específicos detectados
+- Ser completamente diferente en enfoque
+- Mantener la misma longitud
+- Estar lista para A/B testing
+
+FORMATO:
+=== VARIACIÓN A ===
+[Copy completo]
+
+=== VARIACIÓN B ===
+[Copy completo]
+
+=== VARIACIÓN C ===
+[Copy completo]`;
+
+        try {
+            const response = await APIManager.callGemini(prompt);
+            return response;
+        } catch (error) {
+            console.error('Error generando variaciones A/B:', error);
+            return 'Error generando variaciones. Intenta de nuevo.';
+        }
+    },
+
+    // FUNCIÓN: Generar template con IA específica
+    generateAITemplate: async (index, nicho) => {
+        const producto = AppState.productosDetectados[index];
+        if (!producto) return;
+
+        // Mostrar modal de selección de tipo
+        const tipo = await CopyTemplateSystem.showTypeSelector();
+        if (!tipo) return;
+
+        // Crear modal para mostrar resultado
+        const modal = CopyTemplateSystem.createTemplateModal(`🤖 Generando copy con IA específica para ${tipo}...`);
+        document.body.appendChild(modal);
+
+        try {
+            const template = await CopyTemplateSystem.generateAICopy(producto, nicho, tipo);
+            
+            // Actualizar modal con resultado
+            modal.querySelector('.modal-content').innerHTML = `
+                <div class="modal-header">
+                    <h3>🤖 Copy IA Específica - ${tipo.toUpperCase()}</h3>
+                    <button class="close-modal" onclick="this.closest('.template-modal').remove()">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="template-result">
+                        <textarea readonly style="width: 100%; height: 400px; padding: 15px; border: 1px solid #e2e8f0; border-radius: 8px; font-family: monospace; font-size: 14px; line-height: 1.5;">${template}</textarea>
+                    </div>
+                    <div class="template-actions" style="margin-top: 15px; display: flex; gap: 10px;">
+                        <button onclick="CopyTemplateSystem.copyFromModal(this)" class="btn-primary">📋 Copiar</button>
+                        <button onclick="CopyTemplateSystem.downloadFromModal(this, '${tipo}')" class="btn-secondary">💾 Descargar</button>
+                        <button onclick="CopyTemplateSystem.regenerateTemplate(${index}, '${nicho}', '${tipo}')" class="btn-accent">🔄 Regenerar</button>
+                    </div>
+                </div>
+            `;
+            
+            CopyTemplateSystem.showNotification('✅ Copy IA específica generado!', 'success');
+            
+        } catch (error) {
+            console.error('Error:', error);
+            modal.querySelector('.modal-content').innerHTML = `
+                <div class="modal-header">
+                    <h3>❌ Error</h3>
+                    <button class="close-modal" onclick="this.closest('.template-modal').remove()">×</button>
+                </div>
+                <div class="modal-body">
+                    <p>Error generando copy. Intenta de nuevo.</p>
+                </div>
+            `;
+        }
+    },
+
+    // FUNCIÓN: Generar variaciones A/B
+    generateABTemplate: async (index, nicho) => {
+        const producto = AppState.productosDetectados[index];
+        if (!producto) return;
+
+        // Mostrar modal de selección de tipo
+        const tipo = await CopyTemplateSystem.showTypeSelector();
+        if (!tipo) return;
+
+        // Crear modal para mostrar resultado
+        const modal = CopyTemplateSystem.createTemplateModal(`🔄 Generando 3 variaciones A/B para ${tipo}...`);
+        document.body.appendChild(modal);
+
+        try {
+            const variations = await CopyTemplateSystem.generateABVariations(producto, nicho, tipo);
+            
+            // Actualizar modal con resultado
+            modal.querySelector('.modal-content').innerHTML = `
+                <div class="modal-header">
+                    <h3>🔄 Variaciones A/B - ${tipo.toUpperCase()}</h3>
+                    <button class="close-modal" onclick="this.closest('.template-modal').remove()">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="template-result">
+                        <textarea readonly style="width: 100%; height: 500px; padding: 15px; border: 1px solid #e2e8f0; border-radius: 8px; font-family: monospace; font-size: 14px; line-height: 1.5;">${variations}</textarea>
+                    </div>
+                    <div class="template-actions" style="margin-top: 15px; display: flex; gap: 10px;">
+                        <button onclick="CopyTemplateSystem.copyFromModal(this)" class="btn-primary">📋 Copiar Todo</button>
+                        <button onclick="CopyTemplateSystem.downloadFromModal(this, '${tipo}-ab')" class="btn-secondary">💾 Descargar</button>
+                        <button onclick="CopyTemplateSystem.generateABTemplate(${index}, '${nicho}')" class="btn-accent">🔄 Nuevas Variaciones</button>
+                    </div>
+                </div>
+            `;
+            
+            CopyTemplateSystem.showNotification('✅ 3 variaciones A/B generadas!', 'success');
+            
+        } catch (error) {
+            console.error('Error:', error);
+            modal.querySelector('.modal-content').innerHTML = `
+                <div class="modal-header">
+                    <h3>❌ Error</h3>
+                    <button class="close-modal" onclick="this.closest('.template-modal').remove()">×</button>
+                </div>
+                <div class="modal-body">
+                    <p>Error generando variaciones. Intenta de nuevo.</p>
+                </div>
+            `;
+        }
+    },
+
+    // FUNCIÓN: Mostrar selector de tipo
+    showTypeSelector: () => {
+        return new Promise((resolve) => {
+            const modal = document.createElement('div');
+            modal.className = 'template-modal';
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10000;
+            `;
+            
+            modal.innerHTML = `
+                <div class="modal-content" style="background: white; padding: 30px; border-radius: 12px; max-width: 400px; width: 90%;">
+                    <h3 style="margin: 0 0 20px 0; color: #1f2937;">Selecciona el tipo de copy:</h3>
+                    <div class="type-buttons" style="display: flex; flex-direction: column; gap: 10px;">
+                        <button class="type-btn" data-type="facebook" style="padding: 15px; border: 1px solid #e2e8f0; border-radius: 8px; background: white; cursor: pointer; font-weight: 600; text-align: left;">
+                            📘 Facebook Ad
+                        </button>
+                        <button class="type-btn" data-type="google" style="padding: 15px; border: 1px solid #e2e8f0; border-radius: 8px; background: white; cursor: pointer; font-weight: 600; text-align: left;">
+                            🔍 Google Ad
+                        </button>
+                        <button class="type-btn" data-type="email" style="padding: 15px; border: 1px solid #e2e8f0; border-radius: 8px; background: white; cursor: pointer; font-weight: 600; text-align: left;">
+                            📧 Email Sequence
+                        </button>
+                    </div>
+                    <button onclick="this.closest('.template-modal').remove(); resolve(null);" style="margin-top: 20px; padding: 10px 20px; border: 1px solid #e2e8f0; border-radius: 8px; background: white; cursor: pointer;">
+                        Cancelar
+                    </button>
+                </div>
+            `;
+            
+            // Event listeners
+            modal.querySelectorAll('.type-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const type = btn.dataset.type;
+                    modal.remove();
+                    resolve(type);
+                });
+            });
+            
+            document.body.appendChild(modal);
+        });
+    },
+
+    // FUNCIÓN: Crear modal para templates
+    createTemplateModal: (content) => {
+        const modal = document.createElement('div');
+        modal.className = 'template-modal';
+        modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        `;
+        
+        modal.innerHTML = `
+            <div class="modal-content" style="background: white; padding: 20px; border-radius: 12px; max-width: 800px; width: 90%; max-height: 80vh; overflow-y: auto;">
+                <div class="loading-content" style="text-align: center; padding: 40px;">
+                    <div class="spinner" style="width: 40px; height: 40px; border: 4px solid #f3f4f6; border-top: 4px solid #3b82f6; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div>
+                    <p>${content}</p>
+                </div>
+            </div>
+        `;
+        
+        return modal;
+    },
+
+    // FUNCIÓN: Copiar desde modal
+    copyFromModal: async (button) => {
+        const textarea = button.closest('.modal-body').querySelector('textarea');
+        if (textarea) {
+            try {
+                await navigator.clipboard.writeText(textarea.value);
+                CopyTemplateSystem.showNotification('✅ Copiado al portapapeles!', 'success');
+            } catch (error) {
+                console.error('Error copiando:', error);
+                CopyTemplateSystem.showNotification('❌ Error al copiar', 'error');
+            }
+        }
+    },
+
+    // FUNCIÓN: Descargar desde modal
+    downloadFromModal: (button, tipo) => {
+        const textarea = button.closest('.modal-body').querySelector('textarea');
+        if (textarea) {
+            const blob = new Blob([textarea.value], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `copy-${tipo}-${Date.now()}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+            CopyTemplateSystem.showNotification('✅ Descargado!', 'success');
+        }
+    },
+
+    // FUNCIÓN: Regenerar template
+    regenerateTemplate: async (index, nicho, tipo) => {
+        const producto = AppState.productosDetectados[index];
+        if (!producto) return;
+
+        const modal = document.querySelector('.template-modal');
+        const modalContent = modal.querySelector('.modal-content');
+        
+        modalContent.innerHTML = `
+            <div class="loading-content" style="text-align: center; padding: 40px;">
+                <div class="spinner" style="width: 40px; height: 40px; border: 4px solid #f3f4f6; border-top: 4px solid #3b82f6; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div>
+                <p>🔄 Regenerando copy con IA específica...</p>
+            </div>
+        `;
+
+        try {
+            const template = await CopyTemplateSystem.generateAICopy(producto, nicho, tipo);
+            
+            modalContent.innerHTML = `
+                <div class="modal-header">
+                    <h3>🤖 Copy IA Específica - ${tipo.toUpperCase()} (Regenerado)</h3>
+                    <button class="close-modal" onclick="this.closest('.template-modal').remove()">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="template-result">
+                        <textarea readonly style="width: 100%; height: 400px; padding: 15px; border: 1px solid #e2e8f0; border-radius: 8px; font-family: monospace; font-size: 14px; line-height: 1.5;">${template}</textarea>
+                    </div>
+                    <div class="template-actions" style="margin-top: 15px; display: flex; gap: 10px;">
+                        <button onclick="CopyTemplateSystem.copyFromModal(this)" class="btn-primary">📋 Copiar</button>
+                        <button onclick="CopyTemplateSystem.downloadFromModal(this, '${tipo}')" class="btn-secondary">💾 Descargar</button>
+                        <button onclick="CopyTemplateSystem.regenerateTemplate(${index}, '${nicho}', '${tipo}')" class="btn-accent">🔄 Regenerar</button>
+                    </div>
+                </div>
+            `;
+            
+            CopyTemplateSystem.showNotification('✅ Copy regenerado!', 'success');
+            
+        } catch (error) {
+            console.error('Error:', error);
+            modalContent.innerHTML = `
+                <div class="modal-header">
+                    <h3>❌ Error</h3>
+                    <button class="close-modal" onclick="this.closest('.template-modal').remove()">×</button>
+                </div>
+                <div class="modal-body">
+                    <p>Error regenerando copy. Intenta de nuevo.</p>
+                </div>
+            `;
         }
     }
 };
