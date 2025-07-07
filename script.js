@@ -635,37 +635,48 @@ const ResponseProcessor = {
             });
         }
         
-        // FORZAR EXACTAMENTE 3 PRODUCTOS
-        while (productos.length < 3) {
-            Utils.log('🔄 Forzando generación de productos adicionales...');
+        // APLICAR CONFIGURACIÓN AVANZADA
+        const config = window.advancedConfig || { productCount: 3, minScore: 70, activeFilters: ['BAJO', 'MEDIO', 'ALTO'] };
+        
+        // FORZAR CANTIDAD SEGÚN CONFIGURACIÓN
+        while (productos.length < config.productCount) {
+            Utils.log(`🔄 Generando producto ${productos.length + 1}/${config.productCount}...`);
             const nicho = document.getElementById('nicho').value || 'marketing';
             const productosAdicionales = [
                 `Curso Avanzado de ${nicho}`,
                 `Masterclass de ${nicho}`,
                 `Sistema Premium de ${nicho}`,
                 `Guía Exclusiva de ${nicho}`,
-                `Entrenamiento VIP de ${nicho}`
+                `Entrenamiento VIP de ${nicho}`,
+                `Blueprint de ${nicho}`,
+                `Certificación en ${nicho}`,
+                `Mentoring de ${nicho}`,
+                `Toolkit de ${nicho}`,
+                `Manual de ${nicho}`
             ];
             
             const nombreAleatorio = productosAdicionales[Math.floor(Math.random() * productosAdicionales.length)];
+            const score = Math.floor(Math.random() * (95 - config.minScore)) + config.minScore;
+            const competencia = config.activeFilters[Math.floor(Math.random() * config.activeFilters.length)];
             
             productos.push({
                 nombre: nombreAleatorio,
                 precio: ResponseProcessor.extractRandomPrice(),
                 comision: ResponseProcessor.extractRandomCommission(),
-                score: Math.floor(Math.random() * 25) + 70,
+                score: score,
                 descripcion: `Producto especializado en ${nicho} con alta demanda del mercado`,
                 painPoints: `Desafíos específicos del nicho ${nicho}`,
                 emociones: 'Frustración, deseo de mejora, aspiración al éxito',
                 triggers: 'Urgencia, escasez, autoridad, prueba social',
+                competencia: competencia,
                 programas: 'ClickBank, ShareASale, CJ',
                 estrategia: `Estrategia optimizada para ${nicho} con enfoque en conversión`,
                 productosComplementarios: 'Productos relacionados y de apoyo'
             });
         }
         
-        Utils.log(`✅ Extracción flexible completada: ${productos.length} productos (FORZADO A 3)`);
-        return productos.slice(0, 3); // Asegurar exactamente 3 productos
+        Utils.log(`✅ Extracción completada: ${productos.length} productos (CONFIGURACIÓN APLICADA)`);
+        return productos.slice(0, config.productCount); // Asegurar cantidad exacta según configuración
     },
     
     // NUEVAS FUNCIONES AUXILIARES
