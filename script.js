@@ -310,13 +310,7 @@ PROGRAMAS_AFILIADOS:
 [Lista clara y legible de programas específicos para ${nicho} - SIN repeticiones técnicas]
 
 ESTRATEGIA_CONVERSION_ESPECIFICA:
-📱 PARA_${canalPrincipal.toUpperCase()}: [Formato específico que convierte en ${canalPrincipal}]
-👤 PARA_${experiencia.toUpperCase()}: [Estrategia apropiada para nivel ${experiencia}]
-💰 CON_PRESUPUESTO_${presupuestoAds}: [Táctica específica con ${presupuestoTexto}]
-📱 OPTIMIZADO_${dispositivoTarget.toUpperCase()}: [Específico para ${dispositivoTarget}]
-🌍 MERCADO_${mercadoGeo.toUpperCase()}: [Ángulo que funciona en ${mercadoGeo}]
-⏰ TIMING_OPTIMO: [Mejor momento para lanzar en ${mercadoGeo}]
-🎯 AUDIENCIA_ESPECIFICA: [Targeting exacto para ${canalPrincipal}]
+[Estrategia completa y específica para ${experiencia} en ${canalPrincipal} con presupuesto ${presupuestoTexto} en ${mercadoGeo}. Incluir: formato óptimo, timing, audiencia específica, optimización para ${dispositivoTarget}. TEXTO LIMPIO sin etiquetas técnicas.]
 
 PRODUCTOS_COMPLEMENTARIOS_NICHO:
 [2-3 productos específicos de ${nicho} para cross-selling en ${canalPrincipal}]
@@ -472,12 +466,23 @@ const ResponseProcessor = {
             if (!texto) return '';
             
             return texto
-                // Limpiar etiquetas técnicas largas
-                .replace(/METRICAS_CONVERSION_ESPECIFICAS[^:]*:\s*/gi, '')
-                .replace(/ANALISIS_FINANCIERO_CONTEXTUAL[^:]*:\s*/gi, '')
-                .replace(/ESTRATEGIA_CONVERSION_ESPECIFICA[^:]*:\s*/gi, '')
-                .replace(/PRODUCTOS_COMPLEMENTARIOS_NICHO[^:]*:\s*/gi, '')
-                .replace(/ALERTAS_ESPECIFICAS[^:]*:\s*/gi, '')
+                                 // Limpiar etiquetas técnicas largas
+                 .replace(/METRICAS_CONVERSION_ESPECIFICAS[^:]*:\s*/gi, '')
+                 .replace(/ANALISIS_FINANCIERO_CONTEXTUAL[^:]*:\s*/gi, '')
+                 .replace(/ESTRATEGIA_CONVERSION_ESPECIFICA[^:]*:\s*/gi, '')
+                 .replace(/PRODUCTOS_COMPLEMENTARIOS_NICHO[^:]*:\s*/gi, '')
+                 .replace(/ALERTAS_ESPECIFICAS[^:]*:\s*/gi, '')
+                 // Limpiar etiquetas de estrategia específica
+                 .replace(/📱\s*PARA_[A-Z_]+:\s*/gi, '• ')
+                 .replace(/👤\s*PARA_[A-Z_]+:\s*/gi, '• ')
+                 .replace(/💰\s*CON_PRESUPUESTO_[A-Z0-9_]+:\s*/gi, '• ')
+                 .replace(/📱\s*OPTIMIZADO_[A-Z_]+:\s*/gi, '• ')
+                 .replace(/🌍\s*MERCADO_[A-Z_]+:\s*/gi, '• ')
+                 .replace(/⏰\s*TIMING_[A-Z_]+:\s*/gi, '• ')
+                 .replace(/👥\s*AUDIENCIA_[A-Z_]+:\s*/gi, '• ')
+                 .replace(/⚠️\s*ERRORES_[A-Z_]+:\s*/gi, '• ')
+                 .replace(/🚫\s*EVITAR_EN_[A-Z_]+:\s*/gi, '• ')
+                 .replace(/📊\s*METRICAS_CLAVE_[A-Z_]+:\s*/gi, '• ')
                 // Limpiar formato técnico de métricas
                 .replace(/CVR_[A-Z_]+:/gi, 'CVR:')
                 .replace(/EPC_[A-Z_]+:/gi, 'EPC:')
