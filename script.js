@@ -7067,3 +7067,221 @@ setInterval(() => {
 
 console.log('✅ MarketInsight Pro cargado completamente');
 
+// ===== NUEVAS FUNCIONALIDADES PROFESIONALES =====
+
+// Inicializar funcionalidades avanzadas
+function initAdvancedFeatures() {
+    // 1. Toggle de Tema
+    initThemeToggle();
+    
+    // 2. Sliders Profesionales
+    initProfessionalSliders();
+    
+    // 3. Filtros de Competencia
+    initCompetitionFilters();
+    
+    // 4. Modificar generación de productos
+    modifyProductGeneration();
+}
+
+// ===== TEMA TOGGLE =====
+function initThemeToggle() {
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+    
+    if (!themeToggle) return;
+    
+    // Cargar tema guardado
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    body.setAttribute('data-theme', savedTheme);
+    
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = body.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        body.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        
+        // Animación suave
+        body.style.transition = 'all 0.3s ease';
+        setTimeout(() => {
+            body.style.transition = '';
+        }, 300);
+        
+        Utils.log(`🎨 Tema cambiado a: ${newTheme}`);
+    });
+}
+
+// ===== SLIDERS PROFESIONALES =====
+function initProfessionalSliders() {
+    // Slider de cantidad de productos
+    const productCountSlider = document.getElementById('productCountSlider');
+    const productCountValue = document.getElementById('productCountValue');
+    
+    if (productCountSlider && productCountValue) {
+        productCountSlider.addEventListener('input', (e) => {
+            const value = e.target.value;
+            productCountValue.textContent = value;
+            
+            // Efecto visual
+            productCountValue.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                productCountValue.style.transform = 'scale(1)';
+            }, 200);
+            
+            Utils.log(`🔢 Cantidad de productos: ${value}`);
+        });
+    }
+    
+    // Slider de score mínimo
+    const minScoreSlider = document.getElementById('minScoreSlider');
+    const minScoreValue = document.getElementById('minScoreValue');
+    
+    if (minScoreSlider && minScoreValue) {
+        minScoreSlider.addEventListener('input', (e) => {
+            const value = e.target.value;
+            minScoreValue.textContent = value;
+            
+            // Cambiar color según el valor
+            if (value >= 90) {
+                minScoreValue.style.background = 'linear-gradient(135deg, #48bb78 0%, #38a169 100%)';
+            } else if (value >= 80) {
+                minScoreValue.style.background = 'linear-gradient(135deg, #f6ad55 0%, #ed8936 100%)';
+            } else {
+                minScoreValue.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            }
+            
+            Utils.log(`📊 Score mínimo: ${value}`);
+        });
+    }
+}
+
+// ===== FILTROS DE COMPETENCIA =====
+function initCompetitionFilters() {
+    const filterOptions = document.querySelectorAll('.filter-option');
+    
+    filterOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            option.classList.toggle('active');
+            
+            // Efecto visual
+            option.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                option.style.transform = 'scale(1)';
+            }, 150);
+            
+            const level = option.getAttribute('data-level');
+            const isActive = option.classList.contains('active');
+            
+            Utils.log(`🎯 Filtro ${level}: ${isActive ? 'Activado' : 'Desactivado'}`);
+        });
+    });
+}
+
+// ===== MODIFICAR GENERACIÓN DE PRODUCTOS =====
+function modifyProductGeneration() {
+    // Interceptar la función original para usar los nuevos parámetros
+    const originalGenerateAnalysis = App.generateAnalysis;
+    
+    App.generateAnalysis = function() {
+        // Obtener configuración avanzada
+        const productCount = parseInt(document.getElementById('productCountSlider')?.value) || 3;
+        const minScore = parseInt(document.getElementById('minScoreSlider')?.value) || 70;
+        const activeFilters = getActiveCompetitionFilters();
+        
+        Utils.log(`🚀 Generando análisis con configuración avanzada:`);
+        Utils.log(`   - Productos: ${productCount}`);
+        Utils.log(`   - Score mínimo: ${minScore}`);
+        Utils.log(`   - Filtros activos: ${activeFilters.join(', ')}`);
+        
+        // Guardar configuración para uso en la generación
+        window.advancedConfig = {
+            productCount,
+            minScore,
+            activeFilters
+        };
+        
+        // Ejecutar función original
+        originalGenerateAnalysis.call(this);
+    };
+}
+
+// ===== UTILIDADES =====
+function getActiveCompetitionFilters() {
+    const activeFilters = [];
+    document.querySelectorAll('.filter-option.active').forEach(option => {
+        activeFilters.push(option.getAttribute('data-level'));
+    });
+    return activeFilters.length > 0 ? activeFilters : ['BAJO', 'MEDIO', 'ALTO'];
+}
+
+// ===== MEJORAS EN RESPONSEPROCESSOR =====
+// Modificar la función de generación de productos adicionales
+if (typeof ResponseProcessor !== 'undefined') {
+    ResponseProcessor.generateAdditionalProductsAdvanced = function(currentCount) {
+        const config = window.advancedConfig || { productCount: 3, minScore: 70, activeFilters: ['BAJO', 'MEDIO', 'ALTO'] };
+        const needed = config.productCount - currentCount;
+        
+        if (needed <= 0) return [];
+        
+        const productosAdicionales = [];
+        const nicho = document.getElementById('nicho')?.value || 'marketing';
+        const publico = document.getElementById('publico')?.value || 'audiencia';
+        
+        const productosBase = [
+            `Curso Avanzado de ${nicho}`,
+            `Masterclass Completa de ${nicho}`,
+            `Sistema Premium de ${nicho}`,
+            `Guía Definitiva de ${nicho}`,
+            `Entrenamiento VIP de ${nicho}`,
+            `Blueprint de ${nicho}`,
+            `Manual Profesional de ${nicho}`,
+            `Certificación en ${nicho}`,
+            `Mentoring de ${nicho}`,
+            `Toolkit de ${nicho}`
+        ];
+        
+        for (let i = 0; i < needed && i < productosBase.length; i++) {
+            const score = Math.floor(Math.random() * (95 - config.minScore)) + config.minScore;
+            const competencia = config.activeFilters[Math.floor(Math.random() * config.activeFilters.length)];
+            
+            productosAdicionales.push({
+                nombre: productosBase[i],
+                precio: ResponseProcessor.extractRandomPrice(),
+                comision: ResponseProcessor.extractRandomCommission(),
+                score: score,
+                descripcion: `Producto profesional de ${nicho} dirigido a ${publico}`,
+                painPoints: [
+                    `Falta de conocimiento en ${nicho}`,
+                    `Necesidad de resultados rápidos`,
+                    `Búsqueda de métodos probados`
+                ],
+                emociones: ['Frustración', 'Esperanza', 'Determinación'],
+                triggers: ['Exclusividad', 'Resultados garantizados', 'Soporte premium'],
+                competencia: competencia,
+                networks: ['ClickBank', 'ShareASale', 'CJ Affiliate'],
+                tips: [
+                    `Enfocarse en ${publico} específicamente`,
+                    `Usar testimonios reales`,
+                    `Crear urgencia con tiempo limitado`
+                ]
+            });
+        }
+        
+        Utils.log(`✅ Generados ${productosAdicionales.length} productos adicionales con score mínimo ${config.minScore}`);
+        return productosAdicionales;
+    };
+}
+
+// ===== INICIALIZACIÓN AUTOMÁTICA =====
+// Agregar a la inicialización existente
+document.addEventListener('DOMContentLoaded', function() {
+    // Esperar un poco para que se cargue todo
+    setTimeout(() => {
+        initAdvancedFeatures();
+        Utils.log('✅ Funcionalidades avanzadas inicializadas');
+    }, 1000);
+});
+
+console.log('✅ Funcionalidades profesionales cargadas');
+

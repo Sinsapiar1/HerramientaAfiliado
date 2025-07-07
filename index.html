@@ -18,8 +18,19 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>💰 MarketInsight Pro AFFILIATE EDITION</h1>
-            <div class="subtitle">Detecta Productos Ganadores para Marketing de Afiliados</div>
+            <div class="header-main">
+                <h1>💰 MarketInsight Pro AFFILIATE EDITION</h1>
+                <div class="subtitle">Detecta Productos Ganadores para Marketing de Afiliados</div>
+            </div>
+            <div class="header-controls">
+                <!-- Toggle Modo Oscuro/Claro -->
+                <div class="theme-toggle">
+                    <button class="theme-btn" id="themeToggle" title="Cambiar tema">
+                        <span class="theme-icon light-icon">☀️</span>
+                        <span class="theme-icon dark-icon">🌙</span>
+                    </button>
+                </div>
+            </div>
             <div class="features">
                 <span class="feature-badge">🎯 Productos Ganadores</span>
                 <span class="feature-badge">💵 Análisis de Comisiones</span>
@@ -673,6 +684,74 @@
                 <div class="form-group">
                     <label>📋 Keywords o productos específicos (opcional):</label>
                     <textarea id="keywords" rows="3" placeholder="Ej: proteína whey, curso de yoga, smartwatch fitness..."></textarea>
+                </div>
+
+                <!-- NUEVA SECCIÓN: CONFIGURACIÓN AVANZADA -->
+                <div class="advanced-config-section">
+                    <div class="section-header">
+                        <h4>⚙️ Configuración Avanzada</h4>
+                        <span class="section-badge">PROFESIONAL</span>
+                    </div>
+                    
+                    <div class="advanced-controls">
+                        <!-- Control de Cantidad de Productos -->
+                        <div class="control-group">
+                            <label class="control-label">
+                                <span class="label-icon">🔢</span>
+                                <span class="label-text">Productos a Generar</span>
+                                <span class="label-value" id="productCountValue">3</span>
+                            </label>
+                            <div class="slider-container">
+                                <input type="range" id="productCountSlider" min="3" max="10" value="3" class="professional-slider">
+                                <div class="slider-labels">
+                                    <span>3</span>
+                                    <span>5</span>
+                                    <span>7</span>
+                                    <span>10</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Filtro por Score Mínimo -->
+                        <div class="control-group">
+                            <label class="control-label">
+                                <span class="label-icon">📊</span>
+                                <span class="label-text">Score Mínimo</span>
+                                <span class="label-value" id="minScoreValue">70</span>
+                            </label>
+                            <div class="slider-container">
+                                <input type="range" id="minScoreSlider" min="60" max="95" value="70" step="5" class="professional-slider">
+                                <div class="slider-labels">
+                                    <span>60</span>
+                                    <span>75</span>
+                                    <span>85</span>
+                                    <span>95</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Filtro por Nivel de Competencia -->
+                        <div class="control-group">
+                            <label class="control-label">
+                                <span class="label-icon">🎯</span>
+                                <span class="label-text">Competencia Máxima</span>
+                            </label>
+                            <div class="competition-filter">
+                                <div class="filter-option active" data-level="BAJO">
+                                    <span class="option-indicator"></span>
+                                    <span class="option-text">Baja</span>
+                                </div>
+                                <div class="filter-option active" data-level="MEDIO">
+                                    <span class="option-indicator"></span>
+                                    <span class="option-text">Media</span>
+                                </div>
+                                <div class="filter-option active" data-level="ALTO">
+                                    <span class="option-indicator"></span>
+                                    <span class="option-text">Alta</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <button class="btn btn-primary" id="generateBtn">
