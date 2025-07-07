@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarketInsight Pro AFFILIATE EDITION 🚀</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8Z78E3JBG3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-8Z78E3JBG3');
+</script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💰 MarketInsight Pro AFFILIATE EDITION</h1>
+            <div class="subtitle">Detecta Productos Ganadores para Marketing de Afiliados</div>
+            <div class="features">
+                <span class="feature-badge">🎯 Productos Ganadores</span>
+                <span class="feature-badge">💵 Análisis de Comisiones</span>
+                <span class="feature-badge">📊 Competencia</span>
+                <span class="feature-badge">🔥 Tendencias</span>
+                <span class="feature-badge">🚀 ROI Estimado</span>
+                <span class="feature-badge">🔍 Keywords</span>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- API Configuration -->
+            <div class="api-section">
+                <h3>🔑 Configuración de Google AI Studio</h3>
+                <p style="color: #a0aec0; margin-bottom: 15px;">Ingresa tu API Key de Google AI Studio:</p>
+                <div class="input-group">
+                    <input type="password" id="apiKey" placeholder="Tu API Key aquí..." />
+                    <button class="btn btn-warning" id="saveBtn">💾 Guardar</button>
+                    <button class="btn btn-secondary" id="testBtn">🧪 Probar</button>
+                </div>
+                <div id="statusDiv"></div>
+            </div>
+
+            <!-- Main Form -->
+            <div class="form-section">
+                <h2>🎯 Configuración de Búsqueda de Productos Ganadores</h2>
+                
+                <!-- Análisis Options - Reorganizados -->
+                <div class="analysis-sections">
+                    <div class="analysis-group">
+                        <h4>📊 Análisis Básicos</h4>
+                        <div class="analysis-options basic-analysis">
+                            <div class="option-card">
+                                <input type="checkbox" id="analyzeCompetition" checked>
+                                <label for="analyzeCompetition">📊 Análisis de Competencia</label>
+                            </div>
+                            <div class="option-card">
+                                <input type="checkbox" id="analyzeTrends" checked>
+                                <label for="analyzeTrends">📈 Análisis de Tendencias</label>
+                            </div>
+                            <div class="option-card">
+                                <input type="checkbox" id="findAffiliates" checked>
+                                <label for="findAffiliates">🤝 Programas de Afiliados</label>
+                            </div>
+                            <div class="option-card">
+                                <input type="checkbox" id="analyzeKeywords" checked>
+                                <label for="analyzeKeywords">🔍 Keywords Rentables</label>
+                            </div>
+                            <div class="option-card">
+                                <input type="checkbox" id="analyzeSeasonality" checked>
+                                <label for="analyzeSeasonality">📅 Estacionalidad</label>
+                            </div>
+                            <div class="option-card">
+                                <input type="checkbox" id="analyzeProfitability" checked>
+                                <label for="analyzeProfitability">💰 Rentabilidad</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="analysis-group">
+                        <h4>⭐ Análisis Expertos</h4>
+                        <div class="analysis-options expert-analysis-group">
+                            <div class="option-card expert-analysis">
+                                <input type="checkbox" id="analyzeConversion" checked>
+                                <label for="analyzeConversion">🎯 Métricas de Conversión</label>
+                                <small>CVR, EPC, AOV</small>
+                            </div>
+                            <div class="option-card expert-analysis">
+                                <input type="checkbox" id="analyzeFinancial" checked>
+                                <label for="analyzeFinancial">💎 Análisis Financiero</label>
+                                <small>ROI, CPA, Profit Margin</small>
+                            </div>
+                            <div class="option-card expert-analysis">
+                                <input type="checkbox" id="analyzeCompetitorIntel" checked>
+                                <label for="analyzeCompetitorIntel">🕵️ Inteligencia Competitiva</label>
+                                <small>Ad Spend, Saturación</small>
+                            </div>
+                            <div class="option-card expert-analysis">
+                                <input type="checkbox" id="analyzeCustomerJourney" checked>
+                                <label for="analyzeCustomerJourney">🎪 Customer Journey</label>
+                                <small>Touchpoints, Objeciones</small>
+                            </div>
+                            <div class="option-card expert-analysis">
+                                <input type="checkbox" id="analyzeTrafficChannels" checked>
+                                <label for="analyzeTrafficChannels">🚀 Canales de Tráfico</label>
+                                <small>CPC, Volumen, Potencial</small>
+                            </div>
+                            <div class="option-card expert-analysis">
+                                <input type="checkbox" id="analyzeFunnels" checked>
+                                <label for="analyzeFunnels">🔄 Funnels y Upsells</label>
+                                <small>Cross-selling, LTV</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Basic Configuration -->
+                <div class="config-section">
+                    <h4>⚙️ Configuración Básica</h4>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>🎯 Nicho de Mercado:</label>
+                            <input type="text" id="nicho" placeholder="Ej: Fitness, Tecnología, Belleza..." value="Fitness y Bienestar">
+                        </div>
+                        <div class="form-group">
+                            <label>👥 Público Objetivo:</label>
+                            <input type="text" id="publico" placeholder="Ej: Mujeres 25-35, Gamers..." value="Personas de 25-45 años">
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>💵 Rango de Precio Ideal:</label>
+                            <select id="rangoPrecios">
+                                <option value="bajo">$10 - $50 (Impulso)</option>
+                                <option value="medio" selected>$50 - $200 (Considerado)</option>
+                                <option value="alto">$200 - $500 (Premium)</option>
+                                <option value="muy-alto">$500+ (Lujo)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>📊 Tipo de Producto:</label>
+                            <select id="tipoProducto">
+                                <option value="fisico">Producto Físico</option>
+                                <option value="digital" selected>Producto Digital</option>
+                                <option value="servicio">Servicio/Suscripción</option>
+                                <option value="mixto">Mixto</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>🎪 Canal Principal:</label>
+                            <select id="canalPrincipal">
+                                <option value="blog">Blog/SEO</option>
+                                <option value="youtube">YouTube</option>
+                                <option value="instagram">Instagram</option>
+                                <option value="tiktok">TikTok</option>
+                                <option value="email">Email Marketing</option>
+                                <option value="paid" selected>Ads Pagados</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>🚀 Experiencia en Afiliados:</label>
+                            <select id="experiencia">
+                                <option value="principiante">Principiante</option>
+                                <option value="intermedio" selected>Intermedio</option>
+                                <option value="avanzado">Avanzado</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Expert Configuration -->
+                <div class="expert-section">
+                    <h3>🎯 Configuración Experta de Afiliado</h3>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>💰 Presupuesto Publicitario Mensual:</label>
+                            <select id="presupuestoAds">
+                                <option value="0">Sin presupuesto (Orgánico)</option>
+                                <option value="500">$500 - $1,000</option>
+                                <option value="1000" selected>$1,000 - $3,000</option>
+                                <option value="3000">$3,000 - $5,000</option>
+                                <option value="5000">$5,000 - $10,000</option>
+                                <option value="10000">$10,000+</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>📊 Objetivo de ROI Mínimo:</label>
+                            <select id="roiObjetivo">
+                                <option value="2">200% (2x)</option>
+                                <option value="3" selected>300% (3x)</option>
+                                <option value="4">400% (4x)</option>
+                                <option value="5">500% (5x)</option>
+                                <option value="10">1000% (10x)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>⏱️ Tolerancia de Break-Even:</label>
+                            <select id="breakEvenTime">
+                                <option value="inmediato">Inmediato (Día 1)</option>
+                                <option value="semana">1 Semana</option>
+                                <option value="mes" selected>1 Mes</option>
+                                <option value="trimestre">3 Meses</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>🎯 Tipo de Conversión Preferida:</label>
+                            <select id="tipoConversion">
+                                <option value="inmediata" selected>Venta Inmediata</option>
+                                <option value="lead">Lead Generation</option>
+                                <option value="recurring">Suscripción Recurrente</option>
+                                <option value="alto-ticket">Alto Ticket</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>📱 Dispositivo Principal del Público:</label>
+                            <select id="dispositivoTarget">
+                                <option value="mobile" selected>Móvil (70%+)</option>
+                                <option value="desktop">Desktop (70%+)</option>
+                                <option value="mixto">Mixto 50/50</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>🌍 Mercado Geográfico:</label>
+                            <select id="mercadoGeo">
+                                <option value="latam" selected>Latinoamérica</option>
+                                <option value="usa">Estados Unidos</option>
+                                <option value="europa">Europa</option>
+                                <option value="global">Global</option>
+                            </select>
+                        </div>
+                    </div>
+
+                <!-- AGREGAR DESPUÉS DE LA EXPERT-SECTION EN EL HTML EXISTENTE -->
+
+                <!-- ===================== GENERADOR DE CONTENIDO VIRAL ===================== -->
+                <div class="viral-content-section">
+                    <h3>🎯 Generador de Contenido Viral</h3>
+                    <p class="section-description">Genera contenido de alta conversión para todos tus canales de marketing</p>
+                    
+                    <div class="content-type-selector">
+                        <div class="content-type-grid">
+                            <div class="content-type-card" data-type="tiktok">
+                                <div class="content-icon">📱</div>
+                                <h4>TikTok/Reels</h4>
+                                <p>Scripts virales de 15-60s</p>
+                            </div>
+                            <div class="content-type-card" data-type="email">
+                                <div class="content-icon">📧</div>
+                                <h4>Email Marketing</h4>
+                                <p>Subject lines que abren</p>
+                            </div>
+                            <div class="content-type-card" data-type="facebook">
+                                <div class="content-icon">📊</div>
+                                <h4>Facebook Ads</h4>
+                                <p>Headlines ganadoras</p>
+                            </div>
+                            <div class="content-type-card" data-type="instagram">
+                                <div class="content-icon">📸</div>
+                                <h4>Instagram</h4>
+                                <p>Posts con engagement</p>
+                            </div>
+                            <div class="content-type-card" data-type="blog">
+                                <div class="content-icon">✍️</div>
+                                <h4>Blog/SEO</h4>
+                                <p>Artículos optimizados</p>
+                            </div>
+                            <div class="content-type-card" data-type="youtube">
+                                <div class="content-icon">🎥</div>
+                                <h4>YouTube</h4>
+                                <p>Títulos y thumbnails</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="content-config">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>🎯 Ángulo de Venta Principal:</label>
+                                <select id="salesAngle">
+                                    <option value="problema-agitacion">Problema + Agitación</option>
+                                    <option value="antes-despues">Antes vs Después</option>
+                                    <option value="secreto-revelado">Secreto Revelado</option>
+                                    <option value="autoridad-social">Autoridad Social</option>
+                                    <option value="escasez-urgencia">Escasez + Urgencia</option>
+                                    <option value="story-telling">Story Telling</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>😱 Nivel de Controversia:</label>
+                                <select id="controversyLevel">
+                                    <option value="safe">Seguro (Familiar)</option>
+                                    <option value="medium" selected>Medio (Llamativo)</option>
+                                    <option value="high">Alto (Viral)</option>
+                                    <option value="extreme">Extremo (Riesgoso)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>🔥 Palabras de Poder (separadas por comas):</label>
+                            <input type="text" id="powerWords" placeholder="gratis, secreto, exclusivo, limitado, revelado..." 
+                                value="gratis, secreto, exclusivo, limitado, revelado, prohibido, oculto">
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-viral" id="generateContentBtn">
+                        <span class="btn-icon">🚀</span>
+                        <span class="btn-text">Generar Contenido Viral</span>
+                    </button>
+                </div>
+
+                <!-- ===================== AVATAR ULTRA-ESPECÍFICO ===================== -->
+                <div class="avatar-section">
+                    <h3>🧠 Avatar Ultra-Específico</h3>
+                    <p class="section-description">Crea un perfil psicológico profundo de tu cliente ideal</p>
+                    
+                    <div class="avatar-config">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>👤 Género Principal:</label>
+                                <select id="avatarGender">
+                                    <option value="femenino">Femenino</option>
+                                    <option value="masculino">Masculino</option>
+                                    <option value="mixto" selected>Mixto</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>🎂 Rango de Edad:</label>
+                                <select id="avatarAge">
+                                    <option value="18-25">18-25 (Gen Z)</option>
+                                    <option value="25-35" selected>25-35 (Millennials)</option>
+                                    <option value="35-45">35-45 (Gen X Jóvenes)</option>
+                                    <option value="45-55">45-55 (Gen X)</option>
+                                    <option value="55+">55+ (Boomers)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>💰 Nivel Socioeconómico:</label>
+                                <select id="avatarIncome">
+                                    <option value="bajo">Bajo ($20K-$40K)</option>
+                                    <option value="medio" selected>Medio ($40K-$80K)</option>
+                                    <option value="medio-alto">Medio-Alto ($80K-$150K)</option>
+                                    <option value="alto">Alto ($150K+)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>🏠 Situación Familiar:</label>
+                                <select id="avatarFamily">
+                                    <option value="soltero">Soltero/a</option>
+                                    <option value="pareja">En pareja sin hijos</option>
+                                    <option value="familia" selected>Familia con hijos</option>
+                                    <option value="divorciado">Divorciado/a</option>
+                                    <option value="viudo">Viudo/a</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>🎯 Principal Frustración/Problema:</label>
+                            <textarea id="avatarMainProblem" rows="2" 
+                                    placeholder="Ej: No tiene tiempo para hacer ejercicio por el trabajo y los niños..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>🌟 Máximo Deseo/Aspiración:</label>
+                            <textarea id="avatarMainDesire" rows="2" 
+                                    placeholder="Ej: Verse y sentirse como antes del embarazo, tener energía para jugar con sus hijos..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-avatar" id="generateAvatarBtn">
+                        <span class="btn-icon">🧠</span>
+                        <span class="btn-text">Crear Avatar Completo</span>
+                    </button>
+                </div>
+
+                <!-- ===================== RESULTADOS DE CONTENIDO Y AVATAR ===================== -->
+                <div id="contentResults" class="content-results hidden">
+                    <h2>🎯 Contenido Viral Generado</h2>
+                    <div id="contentTabs" class="content-tabs">
+                        <!-- Tabs dinámicos se generan aquí -->
+                    </div>
+                    <div id="contentDisplay" class="content-display">
+                        <!-- Contenido dinámico se muestra aquí -->
+                    </div>
+                    
+                    <div class="content-actions">
+                        <button class="btn btn-secondary" id="copyContentBtn">📋 Copiar Todo</button>
+                        <button class="btn btn-secondary" id="downloadContentBtn">📄 Descargar</button>
+                        <button class="btn btn-secondary" id="regenerateContentBtn">🔄 Regenerar</button>
+                    </div>
+                </div>
+
+                <div id="avatarResults" class="avatar-results hidden">
+                    <h2>🧠 Avatar Ultra-Específico</h2>
+                    <div id="avatarDisplay" class="avatar-display">
+                        <!-- Avatar completo se muestra aquí -->
+                    </div>
+                    
+                    <div class="avatar-actions">
+                        <button class="btn btn-secondary" id="copyAvatarBtn">📋 Copiar Avatar</button>
+                        <button class="btn btn-secondary" id="downloadAvatarBtn">📄 Descargar</button>
+                        <button class="btn btn-secondary" id="exportPersonasBtn">👥 Exportar Personas</button>
+                    </div>
+                </div>
+                
+
+                    <!-- ===== BUSCAR EN TU index.html DESPUÉS de los resultados de avatares múltiples ===== -->
+                    <!-- ===== Y AGREGAR EXACTAMENTE ESTAS 5 LÍNEAS ===== -->
+
+                    <!-- LÍNEA 1: El botón -->
+                    <button onclick="exportToFunnelArchitect()" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #1a202c; padding: 15px 30px; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 700; cursor: pointer; margin: 20px auto; display: flex; align-items: center; gap: 10px; box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3);">🏗️ Crear Funnels con estos datos</button>
+
+                    <!-- LÍNEAS 2-5: El script -->
+                    <script>
+                   // FUNCIÓN EXPORTACIÓN MEJORADA - Captura TODO el contexto
+            function exportToFunnelArchitect() {
+                console.log('🚀 Iniciando exportación con contexto completo...');
+                
+                // 1. DATOS BÁSICOS DEL ANÁLISIS PRINCIPAL
+                const contextoCompleto = {
+                    // Datos básicos del nicho
+                    nicho: document.getElementById('nicho')?.value?.trim() || '',
+                    publico: document.getElementById('publico')?.value?.trim() || '',
+                    keywords: document.getElementById('keywords')?.value?.trim() || '',
+                    
+                    // Configuración del producto/mercado
+                    rangoPrecios: document.getElementById('rangoPrecios')?.value || 'medio',
+                    tipoProducto: document.getElementById('tipoProducto')?.value || 'digital',
+                    canalPrincipal: document.getElementById('canalPrincipal')?.value || 'paid',
+                    experiencia: document.getElementById('experiencia')?.value || 'intermedio',
+                    
+                    // Configuración experta de afiliado
+                    presupuestoAds: document.getElementById('presupuestoAds')?.value || '1000',
+                    roiObjetivo: document.getElementById('roiObjetivo')?.value || '3',
+                    breakEvenTime: document.getElementById('breakEvenTime')?.value || 'mes',
+                    tipoConversion: document.getElementById('tipoConversion')?.value || 'inmediata',
+                    dispositivoTarget: document.getElementById('dispositivoTarget')?.value || 'mobile',
+                    mercadoGeo: document.getElementById('mercadoGeo')?.value || 'latam',
+                    
+                    // Configuración de contenido viral (si existe)
+                    salesAngle: document.getElementById('salesAngle')?.value || 'problema-agitacion',
+                    controversyLevel: document.getElementById('controversyLevel')?.value || 'medium',
+                    powerWords: document.getElementById('powerWords')?.value || '',
+                    
+                    // Configuración de avatar (si existe)
+                    avatarGender: document.getElementById('avatarGender')?.value || '',
+                    avatarAge: document.getElementById('avatarAge')?.value || '',
+                    avatarIncome: document.getElementById('avatarIncome')?.value || '',
+                    avatarFamily: document.getElementById('avatarFamily')?.value || '',
+                    avatarMainProblem: document.getElementById('avatarMainProblem')?.value || '',
+                    avatarMainDesire: document.getElementById('avatarMainDesire')?.value || '',
+                    
+                    // Timestamp de la exportación
+                    fechaExportacion: new Date().toISOString(),
+                    version: 'v1.2-contexto-completo'
+                };
+                
+                // 2. ANÁLISIS SELECCIONADOS (todos los checkboxes)
+                const analisisActivos = {
+                    // Análisis básicos
+                    analyzeCompetition: document.getElementById('analyzeCompetition')?.checked || false,
+                    analyzeTrends: document.getElementById('analyzeTrends')?.checked || false,
+                    findAffiliates: document.getElementById('findAffiliates')?.checked || false,
+                    analyzeKeywords: document.getElementById('analyzeKeywords')?.checked || false,
+                    analyzeSeasonality: document.getElementById('analyzeSeasonality')?.checked || false,
+                    analyzeProfitability: document.getElementById('analyzeProfitability')?.checked || false,
+                    
+                    // Análisis expertos
+                    analyzeConversion: document.getElementById('analyzeConversion')?.checked || false,
+                    analyzeFinancial: document.getElementById('analyzeFinancial')?.checked || false,
+                    analyzeCompetitorIntel: document.getElementById('analyzeCompetitorIntel')?.checked || false,
+                    analyzeCustomerJourney: document.getElementById('analyzeCustomerJourney')?.checked || false,
+                    analyzeTrafficChannels: document.getElementById('analyzeTrafficChannels')?.checked || false,
+                    analyzeFunnels: document.getElementById('analyzeFunnels')?.checked || false
+                };
+                
+                // 3. AVATARES (mejorado)
+                const avatarsAutomaticos = window.processedAvatars || [];
+                const avatarUltraEspecifico = window.lastAvatarGenerated ? [{
+                    titulo: "Avatar Ultra-Específico Personalizado",
+                    contenido: window.lastAvatarGenerated,
+                    tipo: "ultra-especifico",
+                    personalizado: true,
+                    configuracion: {
+                        gender: contextoCompleto.avatarGender,
+                        age: contextoCompleto.avatarAge,
+                        income: contextoCompleto.avatarIncome,
+                        family: contextoCompleto.avatarFamily,
+                        mainProblem: contextoCompleto.avatarMainProblem,
+                        mainDesire: contextoCompleto.avatarMainDesire
+                    }
+                }] : [];
+                
+                const todosLosAvatares = [
+                    ...avatarUltraEspecifico, // Primero el personalizado
+                    ...avatarsAutomaticos     // Luego los automáticos
+                ];
+                
+                // 4. PRODUCTOS ANALIZADOS (mejorado)
+                const productos = (AppState.productosDetectados || []).map(producto => ({
+                    ...producto,
+                    contextoAnalisis: {
+                        nicho: contextoCompleto.nicho,
+                        rangoPrecios: contextoCompleto.rangoPrecios,
+                        tipoProducto: contextoCompleto.tipoProducto,
+                        analisisUsados: analisisActivos
+                    }
+                }));
+                
+                // 5. CONTENIDO VIRAL GENERADO (si existe)
+                const contenidoViral = {
+                    ultimoGenerado: window.lastContentGenerated || null,
+                    tiposSeleccionados: window.selectedContentTypes ? Array.from(window.selectedContentTypes) : [],
+                    configuracion: {
+                        salesAngle: contextoCompleto.salesAngle,
+                        controversyLevel: contextoCompleto.controversyLevel,
+                        powerWords: contextoCompleto.powerWords
+                    }
+                };
+                
+                // 6. VALIDACIONES PRE-EXPORTACIÓN
+                const validaciones = {
+                    tieneAvatares: todosLosAvatares.length > 0,
+                    tieneProductos: productos.length > 0,
+                    tieneContextoBasico: !!(contextoCompleto.nicho && contextoCompleto.publico),
+                    tieneConfiguracionExperta: !!(contextoCompleto.presupuestoAds && contextoCompleto.roiObjetivo)
+                };
+                
+                // 7. PREPARAR DATOS PARA EXPORTACIÓN
+                const datosExportacion = {
+                    contexto: contextoCompleto,
+                    analisis: analisisActivos,
+                    avatares: todosLosAvatares,
+                    productos: productos,
+                    contenidoViral: contenidoViral,
+                    validaciones: validaciones,
+                    metadatos: {
+                        totalAvatares: todosLosAvatares.length,
+                        totalProductos: productos.length,
+                        tieneUltraEspecifico: avatarUltraEspecifico.length > 0,
+                        completitud: calcularCompletitud(validaciones),
+                        timestamp: Date.now()
+                    }
+                };
+                
+                // 8. EXPORTAR A LOCALSTORAGE
+                try {
+                    // Exportación por categorías (mantiene compatibilidad)
+                    localStorage.setItem('funnel_avatars', JSON.stringify(todosLosAvatares));
+                    localStorage.setItem('funnel_products', JSON.stringify(productos));
+                    
+                    // Nueva exportación de contexto completo
+                    localStorage.setItem('funnel_context_complete', JSON.stringify(contextoCompleto));
+                    localStorage.setItem('funnel_analysis_config', JSON.stringify(analisisActivos));
+                    localStorage.setItem('funnel_content_viral', JSON.stringify(contenidoViral));
+                    
+                    // Datos consolidados para el nuevo sistema
+                    localStorage.setItem('marketinsight_export_v2', JSON.stringify(datosExportacion));
+                    
+                    console.log('✅ Exportación completa realizada:', datosExportacion.metadatos);
+                    
+                    // 9. FEEDBACK AL USUARIO
+                    const { totalAvatares, totalProductos, tieneUltraEspecifico, completitud } = datosExportacion.metadatos;
+                    
+                    if (typeof Utils !== 'undefined' && Utils.showStatus) {
+                        const completitudTexto = completitud >= 80 ? 'Contexto Completo' : 
+                                            completitud >= 60 ? 'Contexto Bueno' : 
+                                            'Contexto Básico';
+                        
+                        Utils.showStatus(
+                            `✅ Exportado: ${totalAvatares} avatares${tieneUltraEspecifico ? ' (incluye ultra-específico)' : ''} + ${totalProductos} productos + ${completitudTexto} (${completitud}%)`, 
+                            'success'
+                        );
+                    }
+                    
+                    // 10. ABRIR FUNNEL ARCHITECT
+                    window.open('funnel-architect-standalone.html', '_blank');
+                    
+                } catch (error) {
+                    console.error('❌ Error en exportación:', error);
+                    if (typeof Utils !== 'undefined' && Utils.showStatus) {
+                        Utils.showStatus('❌ Error al exportar datos. Inténtalo de nuevo.', 'error');
+                    } else {
+                        alert('Error al exportar datos. Inténtalo de nuevo.');
+                    }
+                }
+            }
+
+            // FUNCIÓN AUXILIAR: Calcular completitud del contexto
+            function calcularCompletitud(validaciones) {
+                const checks = [
+                    validaciones.tieneAvatares,
+                    validaciones.tieneProductos,
+                    validaciones.tieneContextoBasico,
+                    validaciones.tieneConfiguracionExperta
+                ];
+                
+                const completados = checks.filter(check => check).length;
+                return Math.round((completados / checks.length) * 100);
+            }
+
+            // FUNCIÓN AUXILIAR: Actualizar botón con información contextual
+            function updateFunnelExportButton() {
+                const btn = document.querySelector('[onclick="exportToFunnelArchitect()"]');
+                if (!btn) return;
+                
+                const avatarsAutomaticos = window.processedAvatars?.length || 0;
+                const tieneUltraEspecifico = window.lastAvatarGenerated ? 1 : 0;
+                const totalAvatares = avatarsAutomaticos + tieneUltraEspecifico;
+                const productos = (typeof AppState !== 'undefined' && AppState.productosDetectados) ? AppState.productosDetectados.length : 0;
+                
+                // Calcular completitud básica
+                const tieneNicho = document.getElementById('nicho')?.value?.trim();
+                const tienePublico = document.getElementById('publico')?.value?.trim();
+                const tieneConfiguracion = !!(tieneNicho && tienePublico);
+                
+                if (totalAvatares === 0 && productos === 0) {
+                    btn.innerHTML = '🏗️ Crear Funnels (Genera avatares y productos primero)';
+                    btn.style.opacity = '0.6';
+                    btn.disabled = true;
+                } else if (!tieneConfiguracion) {
+                    btn.innerHTML = '🏗️ Crear Funnels (Completa nicho y público primero)';
+                    btn.style.opacity = '0.7';
+                    btn.disabled = false;
+                } else {
+                    const contextStatus = tieneConfiguracion ? '+ Contexto Completo' : '+ Contexto Básico';
+                    btn.innerHTML = `🏗️ Crear Funnels (${totalAvatares} avatares + ${productos} productos ${contextStatus})`;
+                    btn.style.opacity = '1';
+                    btn.disabled = false;
+                }
+            }
+
+            // AUTO-ACTUALIZAR EL BOTÓN cuando cambien los datos
+            document.addEventListener('DOMContentLoaded', function() {
+                // Actualizar cuando cambien los campos principales
+                ['nicho', 'publico', 'rangoPrecios', 'presupuestoAds'].forEach(fieldId => {
+                    const field = document.getElementById(fieldId);
+                    if (field) {
+                        field.addEventListener('change', updateFunnelExportButton);
+                        field.addEventListener('input', updateFunnelExportButton);
+                    }
+                });
+                
+                // Actualizar inicialmente
+                setTimeout(updateFunnelExportButton, 1000);
+            });
+                    </script>
+
+                
+
+
+                    <!-- Estimaciones en tiempo real -->
+                    <div id="quickEstimations" class="quick-estimations hidden"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>📋 Keywords o productos específicos (opcional):</label>
+                    <textarea id="keywords" rows="3" placeholder="Ej: proteína whey, curso de yoga, smartwatch fitness..."></textarea>
+                </div>
+
+                <button class="btn btn-primary" id="generateBtn">
+                    <span class="btn-icon">🚀</span>
+                    <span class="btn-text">Detectar Productos Ganadores</span>
+                </button>
+            </div>
+
+            <!-- Debug Section -->
+            <div id="debugSection" class="debug-section hidden">
+                <h3>🔧 Información de Debug</h3>
+                <div class="debug-content">
+                    <div class="debug-item">
+                        <strong>Estado API:</strong> <span id="debugApiStatus">No probada</span>
+                    </div>
+                    <div class="debug-item">
+                        <strong>Productos extraídos:</strong> <span id="debugProductCount">0</span>
+                    </div>
+                    <div class="debug-item">
+                        <strong>Última respuesta:</strong>
+                        <pre id="debugResponse">Sin respuesta aún</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading -->
+            <div id="loading" class="loading hidden">
+                <div class="loading-content">
+                    <div class="spinner"></div>
+                    <h3>🔍 Analizando el mercado con IA...</h3>
+                    <p>Detectando productos ganadores y oportunidades de afiliación</p>
+                    <div class="loading-steps">
+                        <div class="step active" id="step1">🧠 Procesando análisis psicológico...</div>
+                        <div class="step" id="step2">📊 Calculando métricas financieras...</div>
+                        <div class="step" id="step3">🔍 Evaluando competencia...</div>
+                        <div class="step" id="step4">✨ Generando recomendaciones...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div id="resultados" class="results hidden">
+                <div class="results-header">
+                    <h2>💰 Productos Ganadores Detectados</h2>
+                    <div id="metricsOverview" class="metrics-overview hidden"></div>
+                </div>
+                
+                <div class="results-content">
+                    <div id="listaProductos"></div>
+                    
+                    <!-- Sección de insights adicionales -->
+                    <div id="additionalInsights" class="additional-insights hidden">
+                        <h3>🎯 Insights Adicionales del Mercado</h3>
+                        <div id="nicheAnalysis" class="insight-section hidden"></div>
+                        <div id="ecosystemAnalysis" class="insight-section hidden"></div>
+                    </div>
+                </div>
+                
+                <div class="export-section">
+                    <h4>📤 Exportar Resultados</h4>
+                    <div class="export-buttons">
+                        <button class="btn btn-secondary" id="copyBtn">
+                            <span class="btn-icon">📋</span>
+                            Copiar
+                        </button>
+                        <button class="btn btn-secondary" id="downloadBtn">
+                            <span class="btn-icon">📄</span>
+                            Descargar TXT
+                        </button>
+                        <button class="btn btn-secondary" id="downloadExcelBtn">
+                            <span class="btn-icon">📊</span>
+                            Exportar CSV
+                        </button>
+                        <button class="btn btn-secondary" id="toggleDebugBtn">
+                            <span class="btn-icon">🔧</span>
+                            Debug
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   <!-- PROFIT CALCULATOR MODAL CORREGIDO - Agregar antes del cierre de </body> en index.html -->
+<div id="profitCalculatorModal" class="modal-overlay hidden">
+    <div class="modal-container profit-calculator-modal">
+        <div class="modal-header">
+            <h2>💰 Calculadora de Profit Inteligente</h2>
+            <button class="modal-close" onclick="ProfitCalculator.closeModal()">×</button>
+        </div>
+        
+        <div class="modal-body">
+            <!-- Información del Producto -->
+            <div class="product-info-calc">
+                <h3 id="calcProductName">Producto</h3>
+                <div class="product-stats-grid">
+                    <div class="stat-box">
+                        <span class="stat-label">Precio</span>
+                        <span class="stat-value" id="calcProductPrice">$0</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Comisión</span>
+                        <span class="stat-value" id="calcProductCommission">0%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Inputs de Configuración -->
+            <div class="calculator-config">
+                <h4>⚙️ Configuración de Campaña</h4>
+                <div class="calc-inputs-grid">
+                    <div class="calc-input-group">
+                        <label>💵 Presupuesto Diario</label>
+                        <input type="number" id="calcBudget" value="50" min="10" max="10000">
+                        <small>USD por día</small>
+                    </div>
+                    
+                    <div class="calc-input-group">
+                        <label>🎯 Canal Principal</label>
+                        <select id="calcChannel">
+                            <option value="facebook">Facebook Ads</option>
+                            <option value="google">Google Ads</option>
+                            <option value="tiktok">TikTok Ads</option>
+                            <option value="native">Native Ads</option>
+                        </select>
+                    </div>
+                    
+                    <div class="calc-input-group">
+                        <label>📅 Días de Campaña</label>
+                        <input type="number" id="calcDays" value="30" min="7" max="365">
+                        <small>Duración total</small>
+                    </div>
+                    
+                    <div class="calc-input-group">
+                        <label>🌍 Mercado</label>
+                        <select id="calcMarket">
+                            <option value="tier1">Tier 1 (US/UK/CA)</option>
+                            <option value="tier2">Tier 2 (EU/AU)</option>
+                            <option value="tier3">Tier 3 (LATAM/ASIA)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button class="btn btn-calculate" onclick="ProfitCalculator.calculate()">
+                    <span>🧮</span>
+                    <span>Calcular Escenarios</span>
+                </button>
+            </div>
+            
+            <!-- Resultados -->
+            <div id="calculatorResults" class="calculator-results hidden">
+                <h4>📊 Proyección de Resultados</h4>
+                
+                <!-- Escenarios -->
+                <div class="scenarios-grid">
+                    <!-- Conservador -->
+                    <div class="scenario-card conservative">
+                        <h5>😰 Escenario Conservador</h5>
+                        <div class="scenario-metrics">
+                            <div class="metric-row">
+                                <span>CPC:</span>
+                                <span id="cpcConservative">$0</span>
+                            </div>
+                            <div class="metric-row">
+                                <span>CTR:</span>
+                                <span id="ctrConservative">0%</span>
+                            </div>
+                            <div class="metric-row">
+                                <span>CR:</span>
+                                <span id="crConservative">0%</span>
+                            </div>
+                            <div class="metric-row highlight">
+                                <span>Profit:</span>
+                                <span id="profitConservative">$0</span>
+                            </div>
+                            <div class="metric-row">
+                                <span>ROI:</span>
+                                <span id="roiConservative">0%</span>
+                            </div>
+                            <div class="metric-row">
+                                <span>Breakeven:</span>
+                                <span id="breakevenConservative">0 días</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Realista -->
+                    <div class="scenario-card realistic">
+                        <h5>😊 Escenario Realista</h5>
+                        <div class="scenario-metrics">
+                            <div class="metric-row">
+                                <span>CPC:</span>
+                                <span id="cpcRealistic">$0</span>
+                            </div>
+                            <div class="metric-row">
+                                <span>CTR:</span>
+                                <span id="ctrRealistic">0%</span>
+                            </div>
+                            <div class="metric-row">
+                                <span>CR:</span>
+                                <span id="crRealistic">0%</span>
+                            </div>
+                            <div class="metric-row highlight">
+                                <span>Profit:</span>
+                                <span id="profitRealistic">$0</span>
+                            </div>
+                            <div class="metric-row">
+                                <span>ROI:</span>
+                                <span id="roiRealistic">0%</span>
+                            </div>
+                            <div class="metric-row">
+                                <span>Breakeven:</span>
+                                <span id="breakevenRealistic">0 días</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Optimista -->
+                    <div class="scenario-card optimistic">
+                        <h5>🚀 Escenario Optimista</h5>
+                        <div class="scenario-metrics">
+                            <div class="metric-row">
+                                <span>CPC:</span>
+                                <span id="cpcOptimistic">$0</span>
+                            </div>
+                            <div class="metric-row">
+                                <span>CTR:</span>
+                                <span id="ctrOptimistic">0%</span>
+                            </div>
+                            <div class="metric-row">
+                                <span>CR:</span>
+                                <span id="crOptimistic">0%</span>
+                            </div>
+                            <div class="metric-row highlight">
+                                <span>Profit:</span>
+                                <span id="profitOptimistic">$0</span>
+                            </div>
+                            <div class="metric-row">
+                                <span>ROI:</span>
+                                <span id="roiOptimistic">0%</span>
+                            </div>
+                            <div class="metric-row">
+                                <span>Breakeven:</span>
+                                <span id="breakevenOptimistic">0 días</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Proyección de Escalamiento -->
+                <div class="scaling-projection">
+                    <h5>📈 Proyección de Escalamiento</h5>
+                    <div class="scaling-chart" id="scalingChart">
+                        <!-- Gráfico simple sin librerías -->
+                    </div>
+                    <div class="scaling-summary">
+                        <div class="scaling-item">
+                            <span>Mes 1:</span>
+                            <span id="month1Profit">$0</span>
+                        </div>
+                        <div class="scaling-item">
+                            <span>Mes 2:</span>
+                            <span id="month2Profit">$0</span>
+                        </div>
+                        <div class="scaling-item">
+                            <span>Mes 3:</span>
+                            <span id="month3Profit">$0</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recomendaciones IA -->
+                <div class="ai-recommendations">
+                    <h5>🤖 Recomendaciones de IA</h5>
+                    <div id="aiRecommendations" class="recommendations-content">
+                        <!-- Recomendaciones dinámicas -->
+                    </div>
+                </div>
+                
+                <!-- Acciones -->
+                <div class="calculator-actions">
+                    <button class="btn btn-secondary" onclick="ProfitCalculator.exportReport()">
+                        📊 Exportar Reporte
+                    </button>
+                    <button class="btn btn-secondary" onclick="ProfitCalculator.saveScenario()">
+                        💾 Guardar Escenario
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script src="script.js"></script>
+    <script src="avatar-sync-system.js"></script>
+</body>
+</html>
