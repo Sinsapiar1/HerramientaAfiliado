@@ -222,21 +222,49 @@ const PromptGenerator = {
         const presupuestoTexto = presupuestoAds === '0' ? 'Sin presupuesto (Tráfico orgánico)' : `$${presupuestoAds}+ mensual`;
         const keywordsTexto = keywords ? `\nKEYWORDS ESPECÍFICOS: ${keywords}` : '';
 
-        return `Actúa como CONSULTOR EXPERTO en marketing de afiliados de élite con 10+ años detectando productos ganadores de $10K+ mensuales.
+        // CONTEXTO ESPECÍFICO PARA IA ULTRA-INTELIGENTE
+        const contextoEspecifico = `
+CONTEXTO ULTRA-ESPECÍFICO DEL AFILIADO:
+📊 PERFIL COMPLETO:
+- Nicho: "${nicho}" (analizar competencia y tendencias específicas)
+- Público: "${publico}" (comportamiento específico en ${canalPrincipal})
+- Canal principal: ${canalPrincipal} (métricas específicas de este canal)
+- Experiencia: ${experiencia} (estrategias apropiadas para este nivel)
+- Dispositivo objetivo: ${dispositivoTarget} (optimización específica)
+- Mercado: ${mercadoGeo} (costos y comportamiento regional)
 
-MISIÓN: Analizar el nicho "${nicho}" para "${publico}" y detectar 5-7 productos GANADORES REALES con análisis financiero completo.
-
-PARÁMETROS DEL AFILIADO:
-- Rango de precio: ${rangoPrecioTexto}
-- Tipo producto: ${tipoProducto}
-- Canal principal: ${canalPrincipal}
-- Experiencia: ${experiencia}
-- Presupuesto ads: ${presupuestoTexto}
-- ROI objetivo: ${roiObjetivo}x mínimo
-- Break-even: ${breakEvenTime}
+💰 PARÁMETROS FINANCIEROS:
+- Presupuesto: ${presupuestoTexto}
+- ROI mínimo objetivo: ${roiObjetivo}x
+- Tolerancia break-even: ${breakEvenTime}
 - Tipo conversión: ${tipoConversion}
-- Dispositivo target: ${dispositivoTarget}
-- Mercado: ${mercadoGeo}${keywordsTexto}
+- Rango precio productos: ${rangoPrecioTexto}
+- Tipo producto: ${tipoProducto}
+
+🎯 ANÁLISIS REQUERIDOS: ${[
+    analyzeCompetition && 'Competencia',
+    analyzeTrends && 'Tendencias',
+    analyzeSeasonality && 'Estacionalidad',
+    analyzeConversion && 'Conversión',
+    analyzeFinancial && 'Financiero',
+    analyzeCompetitorIntel && 'Intel Competitiva',
+    analyzeTrafficChannels && 'Canales Tráfico'
+].filter(Boolean).join(', ')}`;
+
+        return `Actúa como CONSULTOR EXPERTO en marketing de afiliados especializado en ${nicho} para ${canalPrincipal} en ${mercadoGeo} con 15+ años detectando productos ganadores.
+
+${contextoEspecifico}
+
+🎯 MISIÓN ESPECÍFICA: 
+Analizar "${nicho}" para "${publico}" en ${canalPrincipal} y detectar 5-7 productos GANADORES REALES con datos específicos para ${experiencia} con presupuesto ${presupuestoTexto}.
+
+⚠️ IMPORTANTE - DATOS ESPECÍFICOS REQUERIDOS:
+- Métricas REALES para ${canalPrincipal} + ${nicho} + ${mercadoGeo}
+- Costos específicos en ${mercadoGeo} para ${canalPrincipal}
+- Tendencias actuales 2025 en ${nicho}
+- Competencia actual en ${canalPrincipal} para ${nicho}
+- Estrategias específicas para ${experiencia}
+- Optimización para ${dispositivoTarget}${keywordsTexto}
 
 FORMATO OBLIGATORIO para cada producto:
 
@@ -259,37 +287,73 @@ EMOCIONES:
 TRIGGERS:
 [Gatillos emocionales de compra: urgencia, escasez, estatus, etc.]
 
-${analyzeConversion ? `METRICAS_CONVERSION:
-CVR_ESTIMADO: [1-5]% (Tasa de conversión estimada)
-EPC_ESTIMADO: $[0.50-5.00] (Earnings per click)
-AOV: $[XX] (Average order value)
-REFUND_RATE: [2-15]% (Tasa de devoluciones)
-LTV: $[XXX] (Customer lifetime value)` : ''}
+${analyzeConversion ? `METRICAS_CONVERSION_ESPECIFICAS:
+CVR_${canalPrincipal.toUpperCase()}_${nicho.replace(/\s+/g, '_').toUpperCase()}_${mercadoGeo.toUpperCase()}: [X.X]% (Específico para este contexto)
+EPC_NICHO_ESPECIFICO: $[X.XX] (Basado en comisiones reales de ${nicho})
+AOV_${dispositivoTarget.toUpperCase()}: $[XXX] (Optimizado para ${dispositivoTarget})
+REFUND_RATE_NICHO: [X]% (Típico en ${nicho})
+LTV_${tipoConversion.toUpperCase()}: $[XXX] (Para ${tipoConversion})
+ESTACIONALIDAD: [Cuándo vende más en ${mercadoGeo}]
+HORARIO_OPTIMO_${canalPrincipal.toUpperCase()}: [Mejor horario en ${mercadoGeo}]` : ''}
 
-${analyzeFinancial ? `ANALISIS_FINANCIERO:
-CPA_ESTIMADO: $[XX] (Costo por adquisición en ${canalPrincipal})
-ROI_REAL: [2-10]x (Considerando ad spend y comisiones)
-BREAK_EVEN: [1-30] días (Tiempo para recuperar inversión)
-PROFIT_MARGIN: [20-80]% (Margen después de costos publicitarios)
-ESCALABILIDAD: [1-10] (Qué tan fácil es escalar presupuesto)` : ''}
+${analyzeFinancial ? `ANALISIS_FINANCIERO_CONTEXTUAL:
+CPA_REAL_${canalPrincipal.toUpperCase()}_${mercadoGeo.toUpperCase()}: $[XX] (Costo actual en ${canalPrincipal} para ${mercadoGeo})
+CPC_PROMEDIO_NICHO: $[X.XX] (Específico para ${nicho} en ${canalPrincipal})
+ROI_REALISTA_${experiencia.toUpperCase()}: [X]x (Considerando nivel ${experiencia})
+BREAK_EVEN_${breakEvenTime.toUpperCase()}: [X] días (Alineado con tolerancia ${breakEvenTime})
+PROFIT_MARGIN_${presupuestoAds}: [XX]% (Con presupuesto ${presupuestoTexto})
+ESCALABILIDAD_${dispositivoTarget.toUpperCase()}: [X]/10 (Para ${dispositivoTarget})
+COMPETENCIA_NIVEL: [BAJO/MEDIO/ALTO] (En ${canalPrincipal} para ${nicho})
+SATURACION_ACTUAL: [%] (Nivel de saturación en ${mercadoGeo})` : ''}
 
 PROGRAMAS_AFILIADOS:
 [Lista de programas ACTIVOS con comisiones REALES]
 
-ESTRATEGIA_CONVERSION:
-[Mejor ángulo de venta emocional, creatividades que funcionan]
+ESTRATEGIA_CONVERSION_ESPECIFICA:
+📱 PARA_${canalPrincipal.toUpperCase()}: [Formato específico que convierte en ${canalPrincipal}]
+👤 PARA_${experiencia.toUpperCase()}: [Estrategia apropiada para nivel ${experiencia}]
+💰 CON_PRESUPUESTO_${presupuestoAds}: [Táctica específica con ${presupuestoTexto}]
+📱 OPTIMIZADO_${dispositivoTarget.toUpperCase()}: [Específico para ${dispositivoTarget}]
+🌍 MERCADO_${mercadoGeo.toUpperCase()}: [Ángulo que funciona en ${mercadoGeo}]
+⏰ TIMING_OPTIMO: [Mejor momento para lanzar en ${mercadoGeo}]
+🎯 AUDIENCIA_ESPECIFICA: [Targeting exacto para ${canalPrincipal}]
 
-PRODUCTOS_COMPLEMENTARIOS:
-[2-3 productos adicionales para cross-selling]
+PRODUCTOS_COMPLEMENTARIOS_NICHO:
+[2-3 productos específicos de ${nicho} para cross-selling en ${canalPrincipal}]
+
+ALERTAS_ESPECIFICAS:
+⚠️ ERRORES_${experiencia.toUpperCase()}: [Errores típicos a evitar para ${experiencia}]
+🚫 EVITAR_EN_${mercadoGeo.toUpperCase()}: [Qué NO hacer en ${mercadoGeo}]
+📊 METRICAS_CLAVE_${canalPrincipal.toUpperCase()}: [KPIs específicos a monitorear]
 
 === FIN PRODUCTO [N] ===
 
-IMPORTANTE: 
-✅ Solo productos REALES con datos VERIFICABLES
-✅ Programas de afiliados ACTIVOS en 2024
-✅ Métricas basadas en datos de mercado actuales
+INSTRUCCIONES CRÍTICAS PARA IA:
+✅ DATOS ESPECÍFICOS OBLIGATORIOS:
+- Métricas REALES para ${canalPrincipal} + ${nicho} + ${mercadoGeo} (no genéricas)
+- Costos actuales 2025 en ${mercadoGeo} para ${canalPrincipal}
+- CVR específico para ${nicho} en ${canalPrincipal} (no 1.5% genérico)
+- CPC real para ${nicho} en ${mercadoGeo} (no $0.75 genérico)
+- Estrategias específicas para ${experiencia} (no consejos genéricos)
+- Timing específico para ${mercadoGeo} (cuándo lanzar, horarios)
+- Competencia actual en ${canalPrincipal} para ${nicho}
 
-VEREDICTO FINAL: [EXCELENTE/BUENO/SATURADO/EVITAR] con justificación.`;
+✅ CONTEXTO OBLIGATORIO:
+- Presupuesto ${presupuestoTexto} debe influir en estrategias
+- ${dispositivoTarget} debe influir en métricas y formatos
+- ${breakEvenTime} debe influir en proyecciones
+- ${tipoConversion} debe influir en funnels y estrategias
+
+✅ PROHIBIDO:
+❌ Métricas genéricas (CVR: 1.5%, EPC: $0.75)
+❌ Estrategias generales ("usar testimonios")
+❌ Datos inventados sin contexto
+❌ Ignorar la configuración específica del usuario
+
+VEREDICTO FINAL CONTEXTUAL: 
+[EXCELENTE/BUENO/SATURADO/EVITAR] específicamente para ${experiencia} en ${canalPrincipal} con presupuesto ${presupuestoTexto} en ${mercadoGeo}.
+
+JUSTIFICACIÓN: [Por qué es bueno/malo específicamente para ESTA configuración]`;
     }
 };
 
@@ -365,6 +429,11 @@ const ResponseProcessor = {
             breakEven: '',
             profitMargin: '',
             escalabilidad: '',
+            estacionalidad: '',
+            horarioOptimo: '',
+            competenciaNivel: '',
+            saturacionActual: '',
+            timingOptimo: '',
             programas: '',
             estrategia: '',
             productosComplementarios: ''
@@ -381,13 +450,18 @@ const ResponseProcessor = {
             { field: 'painPoints', regex: /PAIN_POINTS:\s*([\s\S]*?)(?=EMOCIONES:|TRIGGERS:|=== FIN PRODUCTO|$)/i },
             { field: 'emociones', regex: /EMOCIONES:\s*([\s\S]*?)(?=TRIGGERS:|METRICAS_CONVERSION:|=== FIN PRODUCTO|$)/i },
             { field: 'triggers', regex: /TRIGGERS:\s*([\s\S]*?)(?=METRICAS_CONVERSION:|ANALISIS_FINANCIERO:|=== FIN PRODUCTO|$)/i },
-            { field: 'cvrEstimado', regex: /CVR_ESTIMADO:\s*([^\n]+)/i },
-            { field: 'epcEstimado', regex: /EPC_ESTIMADO:\s*([^\n]+)/i },
-            { field: 'aov', regex: /AOV:\s*([^\n]+)/i },
-            { field: 'cpaEstimado', regex: /CPA_ESTIMADO:\s*([^\n]+)/i },
-            { field: 'roiReal', regex: /ROI_REAL:\s*([^\n]+)/i },
-            { field: 'breakEven', regex: /BREAK_EVEN:\s*([^\n]+)/i },
-            { field: 'profitMargin', regex: /PROFIT_MARGIN:\s*([^\n]+)/i },
+            { field: 'cvrEstimado', regex: /(?:CVR_ESTIMADO|CVR_[A-Z_]+):\s*([^\n]+)/i },
+            { field: 'epcEstimado', regex: /(?:EPC_ESTIMADO|EPC_NICHO_ESPECIFICO):\s*([^\n]+)/i },
+            { field: 'aov', regex: /(?:AOV|AOV_[A-Z_]+):\s*([^\n]+)/i },
+            { field: 'cpaEstimado', regex: /(?:CPA_ESTIMADO|CPA_REAL_[A-Z_]+):\s*([^\n]+)/i },
+            { field: 'roiReal', regex: /(?:ROI_REAL|ROI_REALISTA_[A-Z_]+):\s*([^\n]+)/i },
+            { field: 'breakEven', regex: /(?:BREAK_EVEN|BREAK_EVEN_[A-Z_]+):\s*([^\n]+)/i },
+            { field: 'profitMargin', regex: /(?:PROFIT_MARGIN|PROFIT_MARGIN_[A-Z0-9_]+):\s*([^\n]+)/i },
+            { field: 'estacionalidad', regex: /ESTACIONALIDAD:\s*([^\n]+)/i },
+            { field: 'horarioOptimo', regex: /HORARIO_OPTIMO_[A-Z_]+:\s*([^\n]+)/i },
+            { field: 'competenciaNivel', regex: /COMPETENCIA_NIVEL:\s*([^\n]+)/i },
+            { field: 'saturacionActual', regex: /SATURACION_ACTUAL:\s*([^\n]+)/i },
+            { field: 'timingOptimo', regex: /TIMING_OPTIMO:\s*([^\n]+)/i },
             { field: 'programas', regex: /PROGRAMAS(?:_AFILIADOS)?:\s*([\s\S]*?)(?=ESTRATEGIA_CONVERSION:|=== FIN PRODUCTO|$)/i },
             { field: 'estrategia', regex: /ESTRATEGIA(?:_CONVERSION)?:\s*([\s\S]*?)(?=PRODUCTOS_COMPLEMENTARIOS:|=== FIN PRODUCTO|$)/i },
             { field: 'productosComplementarios', regex: /PRODUCTOS_COMPLEMENTARIOS:\s*([\s\S]*?)(?==== FIN PRODUCTO|$)/i }
