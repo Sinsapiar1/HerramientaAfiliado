@@ -285,7 +285,7 @@ EMOCIONES:
 [Emociones involucradas: miedo, deseo, ansiedad, aspiración, etc.]
 
 TRIGGERS:
-[Gatillos emocionales de compra: urgencia, escasez, estatus, etc.]
+[Lista limpia: urgencia, escasez, curiosidad, miedo, deseo, etc. - SIN formato técnico]
 
 ${analyzeConversion ? `METRICAS_CONVERSION_ESPECIFICAS:
 CVR_${canalPrincipal.toUpperCase()}_${nicho.replace(/\s+/g, '_').toUpperCase()}_${mercadoGeo.toUpperCase()}: [X.X]% (Específico para este contexto)
@@ -307,7 +307,7 @@ COMPETENCIA_NIVEL: [BAJO/MEDIO/ALTO] (En ${canalPrincipal} para ${nicho})
 SATURACION_ACTUAL: [%] (Nivel de saturación en ${mercadoGeo})` : ''}
 
 PROGRAMAS_AFILIADOS:
-[Lista de programas ACTIVOS con comisiones REALES]
+[Lista clara y legible de programas específicos para ${nicho} - SIN repeticiones técnicas]
 
 ESTRATEGIA_CONVERSION_ESPECIFICA:
 📱 PARA_${canalPrincipal.toUpperCase()}: [Formato específico que convierte en ${canalPrincipal}]
@@ -449,7 +449,7 @@ const ResponseProcessor = {
             { field: 'descripcion', regex: /DESCRIPCION:\s*([\s\S]*?)(?=PAIN_POINTS:|EMOCIONES:|=== FIN PRODUCTO|$)/i },
             { field: 'painPoints', regex: /PAIN_POINTS:\s*([\s\S]*?)(?=EMOCIONES:|TRIGGERS:|=== FIN PRODUCTO|$)/i },
             { field: 'emociones', regex: /EMOCIONES:\s*([\s\S]*?)(?=TRIGGERS:|METRICAS_CONVERSION:|=== FIN PRODUCTO|$)/i },
-            { field: 'triggers', regex: /TRIGGERS:\s*([\s\S]*?)(?=METRICAS_CONVERSION:|ANALISIS_FINANCIERO:|=== FIN PRODUCTO|$)/i },
+            { field: 'triggers', regex: /TRIGGERS:\s*([\s\S]*?)(?=METRICAS_|ANALISIS_|PROGRAMAS_|=== FIN PRODUCTO|$)/i },
             { field: 'cvrEstimado', regex: /(?:CVR_ESTIMADO|CVR_[A-Z_]+):\s*([^\n]+)/i },
             { field: 'epcEstimado', regex: /(?:EPC_ESTIMADO|EPC_NICHO_ESPECIFICO):\s*([^\n]+)/i },
             { field: 'aov', regex: /(?:AOV|AOV_[A-Z_]+):\s*([^\n]+)/i },
@@ -462,18 +462,47 @@ const ResponseProcessor = {
             { field: 'competenciaNivel', regex: /COMPETENCIA_NIVEL:\s*([^\n]+)/i },
             { field: 'saturacionActual', regex: /SATURACION_ACTUAL:\s*([^\n]+)/i },
             { field: 'timingOptimo', regex: /TIMING_OPTIMO:\s*([^\n]+)/i },
-            { field: 'programas', regex: /PROGRAMAS(?:_AFILIADOS)?:\s*([\s\S]*?)(?=ESTRATEGIA_CONVERSION:|=== FIN PRODUCTO|$)/i },
-            { field: 'estrategia', regex: /ESTRATEGIA(?:_CONVERSION)?:\s*([\s\S]*?)(?=PRODUCTOS_COMPLEMENTARIOS:|=== FIN PRODUCTO|$)/i },
-            { field: 'productosComplementarios', regex: /PRODUCTOS_COMPLEMENTARIOS:\s*([\s\S]*?)(?==== FIN PRODUCTO|$)/i }
+            { field: 'programas', regex: /PROGRAMAS(?:_AFILIADOS)?:\s*([\s\S]*?)(?=ESTRATEGIA_|ALERTAS_|=== FIN PRODUCTO|$)/i },
+            { field: 'estrategia', regex: /ESTRATEGIA(?:_CONVERSION)?[^:]*:\s*([\s\S]*?)(?=PRODUCTOS_|ALERTAS_|=== FIN PRODUCTO|$)/i },
+            { field: 'productosComplementarios', regex: /PRODUCTOS_COMPLEMENTARIOS[^:]*:\s*([\s\S]*?)(?=ALERTAS_|=== FIN PRODUCTO|$)/i }
         ];
         
+        // Función para limpiar texto técnico
+        const limpiarTexto = (texto) => {
+            if (!texto) return '';
+            
+            return texto
+                // Limpiar etiquetas técnicas largas
+                .replace(/METRICAS_CONVERSION_ESPECIFICAS[^:]*:\s*/gi, '')
+                .replace(/ANALISIS_FINANCIERO_CONTEXTUAL[^:]*:\s*/gi, '')
+                .replace(/ESTRATEGIA_CONVERSION_ESPECIFICA[^:]*:\s*/gi, '')
+                .replace(/PRODUCTOS_COMPLEMENTARIOS_NICHO[^:]*:\s*/gi, '')
+                .replace(/ALERTAS_ESPECIFICAS[^:]*:\s*/gi, '')
+                // Limpiar formato técnico de métricas
+                .replace(/CVR_[A-Z_]+:/gi, 'CVR:')
+                .replace(/EPC_[A-Z_]+:/gi, 'EPC:')
+                .replace(/CPA_[A-Z_]+:/gi, 'CPA:')
+                .replace(/ROI_[A-Z_]+:/gi, 'ROI:')
+                .replace(/BREAK_EVEN_[A-Z_]+:/gi, 'Break-even:')
+                .replace(/PROFIT_MARGIN_[A-Z0-9_]+:/gi, 'Profit margin:')
+                // Limpiar texto repetitivo
+                .replace(/\s*\([^)]*\)\s*/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+        };
+
         extractors.forEach(({ field, regex }) => {
             const match = texto.match(regex);
             if (match) {
                 if (field === 'score') {
                     producto[field] = parseInt(match[1]) || 0;
                 } else {
-                    producto[field] = match[1].trim();
+                    let content = match[1].trim();
+                    // Aplicar limpieza para campos de texto largo
+                    if (['triggers', 'programas', 'estrategia', 'productosComplementarios'].includes(field)) {
+                        content = limpiarTexto(content);
+                    }
+                    producto[field] = content;
                 }
             }
         });
