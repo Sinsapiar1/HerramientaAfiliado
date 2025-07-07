@@ -260,6 +260,8 @@ Analizar "${nicho}" para "${publico}" en ${canalPrincipal} y detectar EXACTAMENT
 
 ⚠️ OBLIGATORIO: Generar EXACTAMENTE 3 productos (ni más, ni menos) usando el formato estructurado.
 
+🚨 PROHIBIDO ABSOLUTO: NO uses frases como "productos potenciales", "basándome en mi experiencia", "estimaciones", "datos aproximados". SOLO productos REALES con nombres ESPECÍFICOS que existan en el mercado.
+
 ⚠️ IMPORTANTE - DATOS ESPECÍFICOS REQUERIDOS:
 - Métricas REALES para ${canalPrincipal} + ${nicho} + ${mercadoGeo}
 - Costos específicos en ${mercadoGeo} para ${canalPrincipal}
