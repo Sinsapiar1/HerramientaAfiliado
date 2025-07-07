@@ -541,8 +541,8 @@ const ResponseProcessor = {
                     if (nombre && nombre.trim().length > 3) {
                         productos.push({
                             nombre: nombre.trim(),
-                            precio: this.extractRandomPrice(),
-                            comision: this.extractRandomCommission(),
+                            precio: ResponseProcessor.extractRandomPrice(),
+                            comision: ResponseProcessor.extractRandomCommission(),
                             score: Math.floor(Math.random() * 30) + 70,
                             descripcion: `Producto de ${document.getElementById('nicho').value || 'marketing'} con alto potencial`,
                             painPoints: 'Problemas específicos del nicho',
@@ -581,8 +581,8 @@ const ResponseProcessor = {
                         
                         productos.push({
                             nombre: line.trim(),
-                            precio: this.extractRandomPrice(),
-                            comision: this.extractRandomCommission(),
+                            precio: ResponseProcessor.extractRandomPrice(),
+                            comision: ResponseProcessor.extractRandomCommission(),
                             score: Math.floor(Math.random() * 30) + 70,
                             descripcion: `${keyword.charAt(0).toUpperCase() + keyword.slice(1)} especializado en ${nicho}`,
                             painPoints: `Problemas comunes en ${nicho}`,
@@ -613,8 +613,8 @@ const ResponseProcessor = {
                 if (productos.length < 3) {
                     productos.push({
                         nombre: nombre,
-                        precio: this.extractRandomPrice(),
-                        comision: this.extractRandomCommission(),
+                        precio: ResponseProcessor.extractRandomPrice(),
+                        comision: ResponseProcessor.extractRandomCommission(),
                         score: Math.floor(Math.random() * 20) + 75,
                         descripcion: `Producto líder en ${nicho} con excelente conversión`,
                         painPoints: `Desafíos principales en ${nicho}`,
@@ -644,8 +644,8 @@ const ResponseProcessor = {
             
             productos.push({
                 nombre: nombreAleatorio,
-                precio: this.extractRandomPrice(),
-                comision: this.extractRandomCommission(),
+                precio: ResponseProcessor.extractRandomPrice(),
+                comision: ResponseProcessor.extractRandomCommission(),
                 score: Math.floor(Math.random() * 25) + 70,
                 descripcion: `Producto especializado en ${nicho} con alta demanda del mercado`,
                 painPoints: `Desafíos específicos del nicho ${nicho}`,
