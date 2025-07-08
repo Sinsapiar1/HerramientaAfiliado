@@ -7183,17 +7183,22 @@ console.log('✅ MarketInsight Pro cargado completamente');
 
 // Inicializar funcionalidades avanzadas
 function initAdvancedFeatures() {
-    // 1. Toggle de Tema
+    // 1. Toggle de Tema (mantener activo)
     initThemeToggle();
     
-    // 2. Sliders Profesionales
-    initProfessionalSliders();
+    // 2. TEMPORALMENTE DESHABILITADO - Ocultar configuración avanzada hasta que el detector funcione 100%
+    // initProfessionalSliders();
+    // initCompetitionFilters();
+    // modifyProductGeneration();
     
-    // 3. Filtros de Competencia
-    initCompetitionFilters();
-    
-    // 4. Modificar generación de productos
-    modifyProductGeneration();
+    // Ocultar la sección de configuración avanzada
+    setTimeout(() => {
+        const advancedSection = document.querySelector('.advanced-config-section');
+        if (advancedSection) {
+            advancedSection.style.display = 'none';
+            console.log('🔧 Configuración avanzada oculta temporalmente');
+        }
+    }, 500);
 }
 
 // ===== TEMA TOGGLE =====
