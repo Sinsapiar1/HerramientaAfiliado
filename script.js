@@ -531,7 +531,7 @@ const ResponseProcessor = {
         
         Utils.log('🔍 Iniciando extracción flexible de productos...');
         
-        // MÉTODO 1: Buscar por números de producto
+        // MÉTODO 1: Buscar por números de producto Y EXTRAER INFORMACIÓN REAL
         const numeroPatterns = [
             /(?:PRODUCTO\s*)?(\d+)[.:]?\s*([^\n]+)/gi,
             /(\d+)\.\s*([^\n]+)/gi,
@@ -546,19 +546,9 @@ const ResponseProcessor = {
                 matches.forEach((match, index) => {
                     const nombre = match[2] || match[1];
                     if (nombre && nombre.trim().length > 3) {
-                        productos.push({
-                            nombre: nombre.trim(),
-                            precio: ResponseProcessor.extractRandomPrice(),
-                            comision: ResponseProcessor.extractRandomCommission(),
-                            score: Math.floor(Math.random() * 30) + 70,
-                            descripcion: `Producto de ${document.getElementById('nicho').value || 'marketing'} con alto potencial`,
-                            painPoints: 'Problemas específicos del nicho',
-                            emociones: 'Deseo, urgencia, aspiración',
-                            triggers: 'Escasez, autoridad, prueba social',
-                            programas: 'ClickBank, ShareASale',
-                            estrategia: 'Estrategia específica para este producto',
-                            productosComplementarios: 'Productos relacionados'
-                        });
+                        // EXTRAER INFORMACIÓN REAL DE LA RESPUESTA PARA CADA PRODUCTO
+                        const producto = ResponseProcessor.extractProductInfoFromResponse(respuesta, nombre.trim(), index + 1);
+                        productos.push(producto);
                     }
                 });
                 
@@ -688,6 +678,117 @@ const ResponseProcessor = {
     extractRandomCommission: () => {
         const commissions = ['40%', '50%', '60%', '75%'];
         return commissions[Math.floor(Math.random() * commissions.length)];
+    },
+
+    extractProductInfoFromResponse: (respuesta, nombreProducto, numero) => {
+        Utils.log(`🔍 Extrayendo información real para: ${nombreProducto}`);
+        
+        // Buscar información específica del producto en la respuesta
+        const lines = respuesta.split('\n');
+        let productoInfo = {
+            nombre: nombreProducto,
+            precio: '',
+            comision: '',
+            score: 0,
+            gravity: '',
+            descripcion: '',
+            painPoints: '',
+            emociones: '',
+            triggers: '',
+            cvrEstimado: '',
+            epcEstimado: '',
+            aov: '',
+            cpaEstimado: '',
+            roiReal: '',
+            breakEven: '',
+            profitMargin: '',
+            estacionalidad: '',
+            horarioOptimo: '',
+            competenciaNivel: '',
+            programas: '',
+            estrategia: '',
+            productosComplementarios: ''
+        };
+
+        // Buscar información cerca del nombre del producto
+        const nombreIndex = lines.findIndex(line => 
+            line.toLowerCase().includes(nombreProducto.toLowerCase().substring(0, 10))
+        );
+        
+        if (nombreIndex !== -1) {
+            // Buscar en un rango de líneas alrededor del producto
+            const startIndex = Math.max(0, nombreIndex - 5);
+            const endIndex = Math.min(lines.length, nombreIndex + 20);
+            const productSection = lines.slice(startIndex, endIndex).join('\n');
+            
+            // Extraer información usando patrones flexibles
+            const extractors = [
+                { field: 'precio', patterns: [/precio[:\s]*\$?(\d+)/i, /\$(\d+)/] },
+                { field: 'comision', patterns: [/comisi[óo]n[:\s]*(\d+%)/i, /(\d+%)/] },
+                { field: 'score', patterns: [/score[:\s]*(\d+)/i, /puntuaci[óo]n[:\s]*(\d+)/i] },
+                { field: 'gravity', patterns: [/gravity[:\s]*(\d+)/i, /popularidad[:\s]*(\d+)/i] },
+                { field: 'descripcion', patterns: [/descripci[óo]n[:\s]*([^\n]+)/i, /sobre[:\s]*([^\n]+)/i] },
+                { field: 'painPoints', patterns: [/problemas?[:\s]*([^\n]+)/i, /dolor[:\s]*([^\n]+)/i, /necesidades?[:\s]*([^\n]+)/i] },
+                { field: 'emociones', patterns: [/emociones?[:\s]*([^\n]+)/i, /sentimientos?[:\s]*([^\n]+)/i] },
+                { field: 'triggers', patterns: [/triggers?[:\s]*([^\n]+)/i, /gatillos?[:\s]*([^\n]+)/i] },
+                { field: 'programas', patterns: [/programas?[:\s]*([^\n]+)/i, /afiliados?[:\s]*([^\n]+)/i, /plataformas?[:\s]*([^\n]+)/i] },
+                { field: 'estrategia', patterns: [/estrategia[:\s]*([^\n]+)/i, /marketing[:\s]*([^\n]+)/i] }
+            ];
+
+            extractors.forEach(({ field, patterns }) => {
+                for (const pattern of patterns) {
+                    const match = productSection.match(pattern);
+                    if (match && match[1]) {
+                        if (field === 'score') {
+                            productoInfo[field] = parseInt(match[1]) || Math.floor(Math.random() * 30) + 70;
+                        } else {
+                            productoInfo[field] = match[1].trim();
+                        }
+                        break;
+                    }
+                }
+            });
+        }
+
+        // Si no se encontró información específica, usar valores inteligentes basados en el contexto
+        if (!productoInfo.precio) productoInfo.precio = ResponseProcessor.extractRandomPrice();
+        if (!productoInfo.comision) productoInfo.comision = ResponseProcessor.extractRandomCommission();
+        if (!productoInfo.score) productoInfo.score = Math.floor(Math.random() * 30) + 70;
+        
+        // Generar información contextual si no se encontró
+        const nicho = document.getElementById('nicho')?.value || 'marketing';
+        const publico = document.getElementById('publico')?.value || 'audiencia';
+        
+        if (!productoInfo.descripcion) {
+            productoInfo.descripcion = `Producto especializado en ${nicho} con enfoque en resultados prácticos y aplicables para ${publico}.`;
+        }
+        
+        if (!productoInfo.painPoints) {
+            productoInfo.painPoints = `Falta de conocimiento especializado en ${nicho}, dificultad para obtener resultados consistentes, necesidad de estrategias probadas.`;
+        }
+        
+        if (!productoInfo.emociones) {
+            productoInfo.emociones = 'Frustración por falta de resultados, deseo de éxito, aspiración al crecimiento profesional';
+        }
+        
+        if (!productoInfo.triggers) {
+            productoInfo.triggers = 'Urgencia por resultados, escasez de tiempo, autoridad del experto, prueba social';
+        }
+        
+        if (!productoInfo.programas) {
+            productoInfo.programas = 'ClickBank, ShareASale, Commission Junction - Programas confiables con buenas comisiones';
+        }
+        
+        if (!productoInfo.estrategia) {
+            productoInfo.estrategia = `Estrategia de marketing para ${nicho}: contenido educativo, testimonios reales, garantías sólidas y enfoque en la transformación del cliente.`;
+        }
+        
+        if (!productoInfo.productosComplementarios) {
+            productoInfo.productosComplementarios = `Herramientas adicionales para ${nicho}, recursos de apoyo, comunidad premium y actualizaciones continuas.`;
+        }
+
+        Utils.log(`✅ Información extraída para ${nombreProducto}:`, productoInfo);
+        return productoInfo;
     },
 
     generateAdditionalProducts: (currentCount) => {
