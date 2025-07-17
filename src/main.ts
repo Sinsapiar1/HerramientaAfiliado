@@ -24,9 +24,18 @@ function compactPrompt(original: string): string {
 
 // ===== Helper: validate model response =====
 function isValidProductResponse(resp: string): boolean {
-  const matches = resp.match(/=== PRODUCTO [1-3] ===/g);
-  const nombres = resp.match(/NOMBRE:\s*[^\n%]/gi);
-  return !!matches && matches.length === 3 && !!nombres && nombres.length === 3;
+  const blocks = resp.match(/=== PRODUCTO [1-3] ===[\s\S]*?=== FIN PRODUCTO [1-3] ===/g) || [];
+  if (blocks.length !== 3) return false;
+
+  const nombres = blocks.map(b => {
+    const m = b.match(/NOMBRE:\s*([^\n]+)/i);
+    return m ? m[1].trim().toLowerCase() : '';
+  });
+
+  // Todos los nombres deben existir y ser distintos
+  if (nombres.some(n => !n || n === '%' || n.length < 3)) return false;
+  const unique = new Set(nombres);
+  return unique.size === 3;
 }
 
 const PROVIDERS: Record<ProviderId, ProviderConfig> = {
@@ -52,7 +61,7 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
         body: JSON.stringify({
           model: 'gpt-3.5-turbo',
           messages: [
-            { role: 'system', content: 'Eres un analista senior de marketing de afiliados. Devuelve EXACTAMENTE 3 productos reales. Para cada producto escribe cabecera "=== PRODUCTO N ===" y cierra con "=== FIN PRODUCTO N ===". No uses placeholders. Idioma: Español.' },
+            { role: 'system', content: 'Eres un analista senior de marketing de afiliados. Devuelve EXACTAMENTE 3 productos REALES. Cada producto debe incluir NOMBRE (no vacío), PRECIO, COMISION, SCORE, GRAVITY y demás campos. Los NOMBRE deben ser distintos entre sí. No repitas productos, no uses placeholders, no uses las palabras "potencial" ni "estimación". Formato: "=== PRODUCTO N ===" ... "=== FIN PRODUCTO N ===". Idioma: Español.' },
             { role: 'user', content: retry ? `FORMATO INCORRECTO. Repite EXACTAMENTE usando la plantilla.\n${compactPrompt(prompt)}` : compactPrompt(prompt) }
           ],
           temperature: 0.2,
@@ -91,7 +100,7 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
         body: JSON.stringify({
           model: 'mistral-7b-instruct',
           messages: [
-            { role: 'system', content: 'Eres un analista senior de marketing de afiliados. Devuelve EXACTAMENTE 3 productos reales con la plantilla pedida. Idioma: Español.' },
+            { role: 'system', content: 'Eres un analista senior de marketing de afiliados. Devuelve EXACTAMENTE 3 productos REALES con la plantilla pedida. Cada producto con NOMBRE único. No uses placeholders ni frases de incertidumbre. Idioma: Español.' },
             { role: 'user', content: retry ? `FORMATO INCORRECTO. Repite EXACTAMENTE usando la plantilla.\n${compactPrompt(prompt)}` : compactPrompt(prompt) }
           ],
           temperature: 0.2,
