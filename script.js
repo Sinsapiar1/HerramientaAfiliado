@@ -3499,7 +3499,7 @@ function extraerAvatares(respuesta) {
 }
 
 // Funciones de utilidad
-function copiarAvatar(index) {
+function copiarAvatarIndex(index) {
     if (window.processedAvatars && window.processedAvatars[index]) {
         const avatar = window.processedAvatars[index];
         navigator.clipboard.writeText(`${avatar.titulo}\n\n${avatar.contenido}`);
@@ -7402,3 +7402,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 console.log('✅ Funcionalidades profesionales cargadas');
 
+
+// ===================== EXPOSE FOR OVERRIDE =====================
+if (typeof window !== 'undefined') {
+  window.APIManager = APIManager;
+  window.AppState = AppState;
+  window.Utils = Utils;
+}
