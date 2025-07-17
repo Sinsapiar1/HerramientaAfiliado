@@ -15,6 +15,20 @@ interface ProviderConfig {
   request: (prompt: string, apiKey: string) => Promise<string>;
 }
 
+// ===== Helper: compact prompt for non-Gemini providers =====
+function compactPrompt(original: string): string {
+  // Remove emojis and excessive whitespace
+  const noEmoji = original.replace(/[\u{1F300}-\u{1F6FF}]/gu, '');
+  return noEmoji.replace(/\s{2,}/g, ' ').trim();
+}
+
+// ===== Helper: validate model response =====
+function isValidProductResponse(resp: string): boolean {
+  const matches = resp.match(/=== PRODUCTO [1-3] ===/g);
+  const nombres = resp.match(/NOMBRE:\s*[^\n%]/gi);
+  return !!matches && matches.length === 3 && !!nombres && nombres.length === 3;
+}
+
 const PROVIDERS: Record<ProviderId, ProviderConfig> = {
   gemini: {
     name: 'Google Gemini',
@@ -28,7 +42,8 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
     name: 'OpenAI GPT-3.5',
     keyLink: 'https://platform.openai.com/account/api-keys',
     request: async (prompt: string, apiKey: string) => {
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      const makeCall = async (retry = false): Promise<string> => {
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -37,10 +52,11 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
         body: JSON.stringify({
           model: 'gpt-3.5-turbo',
           messages: [
-            { role: 'system', content: 'Follow the user instructions strictly and use the exact JSON-like structure requested. Do NOT add any additional commentary.' },
-            { role: 'user', content: prompt }
+            { role: 'system', content: 'Eres un analista senior de marketing de afiliados. Devuelve EXACTAMENTE 3 productos reales. Para cada producto escribe cabecera "=== PRODUCTO N ===" y cierra con "=== FIN PRODUCTO N ===". No uses placeholders. Idioma: Español.' },
+            { role: 'user', content: retry ? `FORMATO INCORRECTO. Repite EXACTAMENTE usando la plantilla.\n${compactPrompt(prompt)}` : compactPrompt(prompt) }
           ],
-          temperature: 0.4,
+          temperature: 0.2,
+          top_p: 0.8,
           max_tokens: 4000,
         }),
       });
@@ -51,13 +67,21 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
       }
 
       const data = await response.json();
-      return data.choices?.[0]?.message?.content || '';
+      const content = data.choices?.[0]?.message?.content || '';
+      if (!isValidProductResponse(content) && !retry) {
+        return await makeCall(true);
+      }
+      return content;
+      };
+
+      return makeCall();
     },
   },
   together: {
     name: 'Together.ai (Mistral 7B)',
     keyLink: 'https://app.together.xyz/settings/api-keys',
     request: async (prompt: string, apiKey: string) => {
+      const makeCall = async (retry=false): Promise<string> => {
       const response = await fetch('https://api.together.xyz/v1/chat/completions', {
         method: 'POST',
         headers: {
@@ -67,10 +91,11 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
         body: JSON.stringify({
           model: 'mistral-7b-instruct',
           messages: [
-            { role: 'system', content: 'Follow the user instructions strictly and use the exact JSON-like structure requested. Do NOT add any additional commentary.' },
-            { role: 'user', content: prompt }
+            { role: 'system', content: 'Eres un analista senior de marketing de afiliados. Devuelve EXACTAMENTE 3 productos reales con la plantilla pedida. Idioma: Español.' },
+            { role: 'user', content: retry ? `FORMATO INCORRECTO. Repite EXACTAMENTE usando la plantilla.\n${compactPrompt(prompt)}` : compactPrompt(prompt) }
           ],
-          temperature: 0.4,
+          temperature: 0.2,
+          top_p: 0.8,
           max_tokens: 4000,
         }),
       });
@@ -81,13 +106,21 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
       }
 
       const data = await response.json();
-      return (data.text || (data.response as string) || data.generations?.[0]?.text) ?? '';
+      const content = (data.text || (data.response as string) || data.generations?.[0]?.text) ?? '';
+      if (!isValidProductResponse(content) && !retry) {
+        return await makeCall(true);
+      }
+      return content;
+      };
+
+      return makeCall();
     },
   },
   cohere: {
     name: 'Cohere (Command-R)',
     keyLink: 'https://dashboard.cohere.com/api-keys',
     request: async (prompt: string, apiKey: string) => {
+      const makeCall = async (retry=false): Promise<string> => {
       const response = await fetch('https://api.cohere.ai/v1/chat', {
         method: 'POST',
         headers: {
@@ -96,8 +129,8 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
         },
         body: JSON.stringify({
           model: 'command-r',
-          message: prompt,
-          temperature: 0.4,
+          message: retry ? `FORMATO INCORRECTO. Repite EXACTAMENTE usando la plantilla.\n${compactPrompt(prompt)}` : compactPrompt(prompt),
+          temperature: 0.2,
           max_tokens: 4000,
         }),
       });
@@ -108,7 +141,14 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
       }
 
       const data = await response.json();
-      return (data.text || (data.response as string) || data.generations?.[0]?.text) ?? '';
+      const content = (data.text || (data.response as string) || data.generations?.[0]?.text) ?? '';
+      if (!isValidProductResponse(content) && !retry) {
+         return await makeCall(true);
+      }
+      return content;
+      };
+
+      return makeCall();
     },
   },
 };
