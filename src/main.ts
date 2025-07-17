@@ -51,7 +51,8 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
     name: 'OpenAI GPT-3.5',
     keyLink: 'https://platform.openai.com/account/api-keys',
     request: async (prompt: string, apiKey: string) => {
-      const makeCall = async (retry = false): Promise<string> => {
+      const MAX_RETRY = 2;
+      const makeCall = async (attempt = 0): Promise<string> => {
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
         headers: {
@@ -62,7 +63,7 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
           model: 'gpt-3.5-turbo',
           messages: [
             { role: 'system', content: 'Eres un analista senior de marketing de afiliados. Devuelve EXACTAMENTE 3 productos REALES. Cada producto debe incluir NOMBRE (no vacío), PRECIO, COMISION, SCORE, GRAVITY y demás campos. Los NOMBRE deben ser distintos entre sí. No repitas productos, no uses placeholders, no uses las palabras "potencial" ni "estimación". Formato: "=== PRODUCTO N ===" ... "=== FIN PRODUCTO N ===". Idioma: Español.' },
-            { role: 'user', content: retry ? `FORMATO INCORRECTO. Repite EXACTAMENTE usando la plantilla.\n${compactPrompt(prompt)}` : compactPrompt(prompt) }
+            { role: 'user', content: attempt>0 ? `FORMATO INCORRECTO. Repite EXACTAMENTE usando la plantilla.\n${compactPrompt(prompt)}` : compactPrompt(prompt) }
           ],
           temperature: 0.2,
           top_p: 0.8,
@@ -77,8 +78,8 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
 
       const data = await response.json();
       const content = data.choices?.[0]?.message?.content || '';
-      if (!isValidProductResponse(content) && !retry) {
-        return await makeCall(true);
+      if (!isValidProductResponse(content) && attempt < MAX_RETRY) {
+        return await makeCall(attempt + 1);
       }
       return content;
       };
@@ -90,7 +91,8 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
     name: 'Together.ai (Mistral 7B)',
     keyLink: 'https://docs.together.ai/reference/authentication-1',
     request: async (prompt: string, apiKey: string) => {
-      const makeCall = async (retry=false): Promise<string> => {
+      const MAX_RETRY = 2;
+      const makeCall = async (attempt=0): Promise<string> => {
       const response = await fetch('https://api.together.xyz/v1/chat/completions', {
         method: 'POST',
         headers: {
@@ -101,7 +103,7 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
           model: 'mistral-7b-instruct',
           messages: [
             { role: 'system', content: 'Eres un analista senior de marketing de afiliados. Devuelve EXACTAMENTE 3 productos REALES con la plantilla pedida. Cada producto con NOMBRE único. No uses placeholders ni frases de incertidumbre. Idioma: Español.' },
-            { role: 'user', content: retry ? `FORMATO INCORRECTO. Repite EXACTAMENTE usando la plantilla.\n${compactPrompt(prompt)}` : compactPrompt(prompt) }
+            { role: 'user', content: attempt>0 ? `FORMATO INCORRECTO. Repite EXACTAMENTE usando la plantilla.\n${compactPrompt(prompt)}` : compactPrompt(prompt) }
           ],
           temperature: 0.2,
           top_p: 0.8,
@@ -116,8 +118,8 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
 
       const data = await response.json();
       const content = (data.text || (data.response as string) || data.generations?.[0]?.text) ?? '';
-      if (!isValidProductResponse(content) && !retry) {
-        return await makeCall(true);
+      if (!isValidProductResponse(content) && attempt < MAX_RETRY) {
+        return await makeCall(attempt + 1);
       }
       return content;
       };
@@ -129,7 +131,8 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
     name: 'Cohere (Command-R)',
     keyLink: 'https://dashboard.cohere.com/api-keys',
     request: async (prompt: string, apiKey: string) => {
-      const makeCall = async (retry=false): Promise<string> => {
+      const MAX_RETRY = 2;
+      const makeCall = async (attempt=0): Promise<string> => {
       const response = await fetch('https://api.cohere.ai/v1/chat', {
         method: 'POST',
         headers: {
@@ -138,7 +141,7 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
         },
         body: JSON.stringify({
           model: 'command-r',
-          message: retry ? `FORMATO INCORRECTO. Repite EXACTAMENTE usando la plantilla.\n${compactPrompt(prompt)}` : compactPrompt(prompt),
+          message: attempt>0 ? `FORMATO INCORRECTO. Repite EXACTAMENTE usando la plantilla.\n${compactPrompt(prompt)}` : compactPrompt(prompt),
           temperature: 0.2,
           max_tokens: 4000,
         }),
@@ -151,8 +154,8 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
 
       const data = await response.json();
       const content = (data.text || (data.response as string) || data.generations?.[0]?.text) ?? '';
-      if (!isValidProductResponse(content) && !retry) {
-         return await makeCall(true);
+      if (!isValidProductResponse(content) && attempt < MAX_RETRY) {
+         return await makeCall(attempt + 1);
       }
       return content;
       };
