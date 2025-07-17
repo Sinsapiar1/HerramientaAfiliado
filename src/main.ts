@@ -119,6 +119,7 @@ function initProviderSelector(): void {
     localStorage.setItem('aiProvider', provider);
     if (keyLink) {
       keyLink.href = PROVIDERS[provider].keyLink;
+      keyLink.textContent = `Obtener API Key (${PROVIDERS[provider].name})`;
     }
   };
 
