@@ -10,12 +10,14 @@ console.log('MarketInsight Pro (Vite + TS) initialized');
 type ProviderId = 'gemini' | 'openai' | 'together' | 'cohere';
 
 interface ProviderConfig {
+  name: string;
   keyLink: string;
   request: (prompt: string, apiKey: string) => Promise<string>;
 }
 
 const PROVIDERS: Record<ProviderId, ProviderConfig> = {
   gemini: {
+    name: 'Google Gemini',
     keyLink: 'https://aistudio.google.com/app/apikey',
     // no need, Gemini usa la implementación original
     request: async () => {
@@ -23,6 +25,7 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
     },
   },
   openai: {
+    name: 'OpenAI GPT-3.5',
     keyLink: 'https://platform.openai.com/account/api-keys',
     request: async (prompt: string, apiKey: string) => {
       const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -33,8 +36,11 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
         },
         body: JSON.stringify({
           model: 'gpt-3.5-turbo',
-          messages: [{ role: 'user', content: prompt }],
-          temperature: 0.7,
+          messages: [
+            { role: 'system', content: 'Follow the user instructions strictly and use the exact JSON-like structure requested. Do NOT add any additional commentary.' },
+            { role: 'user', content: prompt }
+          ],
+          temperature: 0.4,
           max_tokens: 4000,
         }),
       });
@@ -49,6 +55,7 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
     },
   },
   together: {
+    name: 'Together.ai (Mistral 7B)',
     keyLink: 'https://app.together.xyz/settings/api-keys',
     request: async (prompt: string, apiKey: string) => {
       const response = await fetch('https://api.together.xyz/v1/chat/completions', {
@@ -59,8 +66,11 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
         },
         body: JSON.stringify({
           model: 'mistral-7b-instruct',
-          messages: [{ role: 'user', content: prompt }],
-          temperature: 0.7,
+          messages: [
+            { role: 'system', content: 'Follow the user instructions strictly and use the exact JSON-like structure requested. Do NOT add any additional commentary.' },
+            { role: 'user', content: prompt }
+          ],
+          temperature: 0.4,
           max_tokens: 4000,
         }),
       });
@@ -75,6 +85,7 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
     },
   },
   cohere: {
+    name: 'Cohere (Command-R)',
     keyLink: 'https://dashboard.cohere.com/api-keys',
     request: async (prompt: string, apiKey: string) => {
       const response = await fetch('https://api.cohere.ai/v1/chat', {
@@ -86,7 +97,7 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
         body: JSON.stringify({
           model: 'command-r',
           message: prompt,
-          temperature: 0.7,
+          temperature: 0.4,
           max_tokens: 4000,
         }),
       });
@@ -118,8 +129,9 @@ function initProviderSelector(): void {
     (window as any).AppState.apiProvider = provider;
     localStorage.setItem('aiProvider', provider);
     if (keyLink) {
-      keyLink.href = PROVIDERS[provider].keyLink;
-      keyLink.textContent = `Obtener API Key (${PROVIDERS[provider].name})`;
+      const cfg = PROVIDERS[provider];
+      keyLink.href = cfg.keyLink;
+      keyLink.textContent = `Obtener API Key (${cfg.name})`;
     }
   };
 
