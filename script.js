@@ -3499,7 +3499,7 @@ function extraerAvatares(respuesta) {
 }
 
 // Funciones de utilidad
-function copiarAvatar(index) {
+function copiarAvatarIndex(index) {
     if (window.processedAvatars && window.processedAvatars[index]) {
         const avatar = window.processedAvatars[index];
         navigator.clipboard.writeText(`${avatar.titulo}\n\n${avatar.contenido}`);
