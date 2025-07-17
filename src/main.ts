@@ -79,7 +79,7 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
   },
   together: {
     name: 'Together.ai (Mistral 7B)',
-    keyLink: 'https://app.together.xyz/settings/api-keys',
+    keyLink: 'https://docs.together.ai/reference/authentication-1',
     request: async (prompt: string, apiKey: string) => {
       const makeCall = async (retry=false): Promise<string> => {
       const response = await fetch('https://api.together.xyz/v1/chat/completions', {
