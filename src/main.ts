@@ -49,7 +49,7 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
     },
   },
   together: {
-    keyLink: 'https://app.together.ai/settings/api-keys',
+    keyLink: 'https://app.together.xyz/settings/api-keys',
     request: async (prompt: string, apiKey: string) => {
       const response = await fetch('https://api.together.xyz/v1/chat/completions', {
         method: 'POST',
@@ -71,7 +71,7 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
       }
 
       const data = await response.json();
-      return data.choices?.[0]?.message?.content || '';
+      return (data.text || (data.response as string) || data.generations?.[0]?.text) ?? '';
     },
   },
   cohere: {
@@ -97,7 +97,7 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
       }
 
       const data = await response.json();
-      return data.text || data.generations?.[0]?.text || '';
+      return (data.text || (data.response as string) || data.generations?.[0]?.text) ?? '';
     },
   },
 };
