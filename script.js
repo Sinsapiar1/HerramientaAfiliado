@@ -7402,3 +7402,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 console.log('✅ Funcionalidades profesionales cargadas');
 
+
+// ===================== EXPOSE FOR OVERRIDE =====================
+if (typeof window !== 'undefined') {
+  window.APIManager = APIManager;
+  window.AppState = AppState;
+  window.Utils = Utils;
+}
