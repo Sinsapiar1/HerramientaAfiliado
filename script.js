@@ -7408,6 +7408,8 @@ if (typeof window !== 'undefined') {
   window.APIManager = APIManager;
   window.AppState = AppState;
   window.Utils = Utils;
+  if (typeof CopyTemplateSystem !== "undefined") window.CopyTemplateSystem = CopyTemplateSystem;
+  if (typeof ProfitCalculator !== "undefined") window.ProfitCalculator = ProfitCalculator;
 }
 // === EXPORTAR A WINDOW PARA BOTONES HTML ===
 if (typeof window !== 'undefined') {
