@@ -52,6 +52,7 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
     keyLink: 'https://platform.openai.com/account/api-keys',
     request: async (prompt: string, apiKey: string) => {
       const MAX_RETRY = 2;
+      const isSimpleTest = /Responde\s+solo\s+con\s+\"OK\"/i.test(prompt);
       const makeCall = async (attempt = 0): Promise<string> => {
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
@@ -78,7 +79,7 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
 
       const data = await response.json();
       const content = data.choices?.[0]?.message?.content || '';
-      if (!isValidProductResponse(content)) {
+      if (!isSimpleTest && !isValidProductResponse(content)) {
         if (attempt < MAX_RETRY) {
           return await makeCall(attempt + 1);
         }
@@ -95,6 +96,7 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
     keyLink: 'https://docs.together.ai/reference/authentication-1',
     request: async (prompt: string, apiKey: string) => {
       const MAX_RETRY = 2;
+      const isSimpleTest = /Responde\s+solo\s+con\s+\"OK\"/i.test(prompt);
       const makeCall = async (attempt=0): Promise<string> => {
       const response = await fetch('https://api.together.xyz/v1/chat/completions', {
         method: 'POST',
@@ -121,7 +123,7 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
 
       const data = await response.json();
       const content = (data.text || (data.response as string) || data.generations?.[0]?.text) ?? '';
-      if (!isValidProductResponse(content)) {
+      if (!isSimpleTest && !isValidProductResponse(content)) {
          if (attempt < MAX_RETRY) {
            return await makeCall(attempt + 1);
          }
@@ -138,6 +140,7 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
     keyLink: 'https://dashboard.cohere.com/api-keys',
     request: async (prompt: string, apiKey: string) => {
       const MAX_RETRY = 2;
+      const isSimpleTest = /Responde\s+solo\s+con\s+\"OK\"/i.test(prompt);
       const makeCall = async (attempt=0): Promise<string> => {
       const response = await fetch('https://api.cohere.ai/v1/chat', {
         method: 'POST',
@@ -160,7 +163,7 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
 
       const data = await response.json();
       const content = (data.text || (data.response as string) || data.generations?.[0]?.text) ?? '';
-      if (!isValidProductResponse(content)) {
+      if (!isSimpleTest && !isValidProductResponse(content)) {
          if (attempt < MAX_RETRY) {
             return await makeCall(attempt + 1);
          }
