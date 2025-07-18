@@ -78,8 +78,11 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
 
       const data = await response.json();
       const content = data.choices?.[0]?.message?.content || '';
-      if (!isValidProductResponse(content) && attempt < MAX_RETRY) {
-        return await makeCall(attempt + 1);
+      if (!isValidProductResponse(content)) {
+        if (attempt < MAX_RETRY) {
+          return await makeCall(attempt + 1);
+        }
+        throw new Error('El modelo no generó 3 productos válidos.');
       }
       return content;
       };
@@ -118,8 +121,11 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
 
       const data = await response.json();
       const content = (data.text || (data.response as string) || data.generations?.[0]?.text) ?? '';
-      if (!isValidProductResponse(content) && attempt < MAX_RETRY) {
-        return await makeCall(attempt + 1);
+      if (!isValidProductResponse(content)) {
+         if (attempt < MAX_RETRY) {
+           return await makeCall(attempt + 1);
+         }
+         throw new Error('El modelo no generó 3 productos válidos.');
       }
       return content;
       };
@@ -154,8 +160,11 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
 
       const data = await response.json();
       const content = (data.text || (data.response as string) || data.generations?.[0]?.text) ?? '';
-      if (!isValidProductResponse(content) && attempt < MAX_RETRY) {
-         return await makeCall(attempt + 1);
+      if (!isValidProductResponse(content)) {
+         if (attempt < MAX_RETRY) {
+            return await makeCall(attempt + 1);
+         }
+         throw new Error('El modelo no generó 3 productos válidos.');
       }
       return content;
       };
