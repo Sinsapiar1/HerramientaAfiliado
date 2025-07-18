@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔮 Trend Predictor - MarketInsight Pro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f1419 0%, #1a2332 50%, #2d3748 100%);
+            color: #e2e8f0;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: rgba(26, 32, 44, 0.6);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #ff6b6b;
+        }
+
+        .header h1 {
+            color: #ff6b6b;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #a0aec0;
+            font-size: 1.2rem;
+        }
+
+        .trend-config {
+            background: rgba(26, 32, 44, 0.8);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 2px solid #4a5568;
+        }
+
+        .config-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #4a5568;
+            border-radius: 8px;
+            background: rgba(0,0,0,0.3);
+            color: #e2e8f0;
+            font-size: 1rem;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #ff6b6b;
+            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px auto;
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .trends-dashboard {
+            display: none;
+            background: rgba(26, 32, 44, 0.8);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 2px solid #48bb78;
+        }
+
+        .trends-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .trend-card {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(238, 90, 82, 0.05) 100%);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 5px solid #ff6b6b;
+            transition: transform 0.3s ease;
+        }
+
+        .trend-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .trend-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .trend-type {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .trend-score {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #48bb78;
+        }
+
+        .trend-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            margin-bottom: 10px;
+        }
+
+        .trend-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .stat-item {
+            background: rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #48bb78;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #a0aec0;
+        }
+
+        .trend-action {
+            background: rgba(72, 187, 120, 0.2);
+            color: #48bb78;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            display: none;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #2d3748;
+            border-top: 4px solid #ff6b6b;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .back-link {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(59, 130, 246, 0.2);
+            color: #93c5fd;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            border: 1px solid #3b82f6;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(59, 130, 246, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .trend-alert {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: #1a202c;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .trend-opportunity {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid #22c55e;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 10px 0;
+        }
+
+        .opportunity-title {
+            color: #22c55e;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .opportunity-desc {
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .config-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .trends-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .trend-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+                    .expand-btn {
+                width: 100%;
+                background: rgba(255, 107, 107, 0.1);
+                border: 1px solid #ff6b6b;
+                color: #ff6b6b;
+                padding: 10px;
+                border-radius: 8px;
+                margin: 15px 0 10px 0;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                font-weight: 600;
+            }
+
+            .expand-btn:hover {
+                background: rgba(255, 107, 107, 0.2);
+                transform: translateY(-1px);
+            }
+
+            .expand-icon {
+                transition: transform 0.3s ease;
+                font-size: 0.8rem;
+            }
+
+            .trend-content {
+                transition: max-height 0.3s ease;
+                overflow: hidden;
+            }
+
+            .trend-section {
+                margin: 10px 0;
+            }
+
+            /* Mejorar legibilidad del texto completo */
+            .content-full {
+                line-height: 1.6;
+                color: #e2e8f0;
+            }
+
+                        /* Alineación de botones al final */
+            .action-buttons {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 15px;
+                margin-top: 30px;
+                flex-wrap: wrap;
+            }
+
+            .action-buttons .btn {
+                flex: 0 1 300px; /* Ancho máximo pero flexible */
+                max-width: 300px;
+            }
+
+            /* Responsive para móviles */
+            @media (max-width: 768px) {
+                .action-buttons {
+                    flex-direction: column;
+                }
+                
+                .action-buttons .btn {
+                    width: 100%;
+                    max-width: none;
+                }
+            }
+    </style>
+</head>
+<body>
+    <a href="javascript:history.back()" class="back-link">← Volver a MarketInsight Pro</a>
+
+    <div class="container">
+        <div class="header">
+            <h1>🔮 Trend Predictor Enterprise</h1>
+            <p>Detecta productos explosivos 30-60 días antes que la competencia</p>
+        </div>
+
+        <div class="trend-config">
+            <h2 style="color: #ff6b6b; margin-bottom: 20px; text-align: center;">⚙️ Configuración de Predicción</h2>
+            
+            <div class="config-grid">
+                <div class="form-group">
+                    <label>🎯 Nicho Base:</label>
+                    <input type="text" id="nichoBase" placeholder="Ej: Fitness, Beauty, Tech..." value="">
+                </div>
+                
+                <div class="form-group">
+                    <label>🌍 Mercado Geográfico:</label>
+                    <select id="mercadoGeo">
+                        <option value="US">Estados Unidos</option>
+                        <option value="MX">México</option>
+                        <option value="ES">España</option>
+                        <option value="AR">Argentina</option>
+                        <option value="LATAM">Latinoamérica</option>
+                        <option value="GLOBAL">Global</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>⏰ Ventana de Predicción:</label>
+                    <select id="ventanaTiempo">
+                        <option value="30">30 días (Ultra Rápido)</option>
+                        <option value="60" selected>60 días (Óptimo)</option>
+                        <option value="90">90 días (Largo Plazo)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>🔍 Tipo de Trend:</label>
+                    <select id="tipoTrend">
+                        <option value="productos">Solo Productos</option>
+                        <option value="keywords">Solo Keywords</option>
+                        <option value="nichos">Nichos Emergentes</option>
+                        <option value="todos" selected>Todo (Recomendado)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>📊 Sensibilidad:</label>
+                    <select id="sensibilidad">
+                        <option value="conservative">Conservativa (Menos alerts)</option>
+                        <option value="balanced" selected>Balanceada</option>
+                        <option value="aggressive">Agresiva (Más oportunidades)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>💰 Score Mínimo:</label>
+                    <select id="scoreMinimo">
+                        <option value="70">70+ (Solo lo mejor)</option>
+                        <option value="60" selected>60+ (Balanceado)</option>
+                        <option value="50">50+ (Todas las oportunidades)</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn" id="predictBtn" onclick="predictTrends()">
+                <span>🔮</span>
+                <span>Predecir Tendencias Explosivas</span>
+            </button>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <h3>🔮 Analizando tendencias globales...</h3>
+            <p>Detectando productos explosivos y oportunidades ocultas</p>
+        </div>
+
+        <div class="trends-dashboard" id="trendsDashboard">
+            <h2 style="color: #48bb78; margin-bottom: 20px; text-align: center;">🔥 Tendencias Explosivas Detectadas</h2>
+            
+            <div id="alertsContainer">
+                <!-- Alerts dinámicos aquí -->
+            </div>
+            
+            <div class="trends-grid" id="trendsGrid">
+                <!-- Trends dinámicos aquí -->
+            </div>
+            
+                        <!-- Busca esta parte y reemplázala -->
+            <div class="action-buttons">
+                <button class="btn" onclick="exportTrends()" style="background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);">
+                    <span>📊</span>
+                    <span>Exportar Reporte de Tendencias</span>
+                </button>
+                <button class="btn" onclick="refreshTrends()" style="background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);">
+                    <span>🔄</span>
+                    <span>Actualizar Tendencias</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ESTADO GLOBAL DEL TREND PREDICTOR
+        const TrendPredictor = {
+            apiKey: '',
+            currentTrends: [],
+            lastUpdate: null,
+            config: {}
+        };
+
+        // CARGAR API KEY Y CONFIGURACIÓN
+        function loadApiKey() {
+            const key = localStorage.getItem('gemini_api_key');
+            if (key) {
+                TrendPredictor.apiKey = key;
+                return true;
+            }
+            alert('⚠️ API Key no encontrada. Configúrala en MarketInsight Pro primero.');
+            return false;
+        }
+
+        // FUNCIÓN PRINCIPAL: PREDECIR TENDENCIAS
+        async function predictTrends() {
+            if (!loadApiKey()) return;
+
+            // Recopilar configuración
+            TrendPredictor.config = {
+                nicho: document.getElementById('nichoBase').value.trim(),
+                mercado: document.getElementById('mercadoGeo').value,
+                ventana: document.getElementById('ventanaTiempo').value,
+                tipo: document.getElementById('tipoTrend').value,
+                sensibilidad: document.getElementById('sensibilidad').value,
+                scoreMinimo: parseInt(document.getElementById('scoreMinimo').value)
+            };
+
+            if (!TrendPredictor.config.nicho) {
+                alert('⚠️ Ingresa un nicho base para analizar');
+                return;
+            }
+
+            // UI Loading
+            const predictBtn = document.getElementById('predictBtn');
+            const loading = document.getElementById('loading');
+            const dashboard = document.getElementById('trendsDashboard');
+
+            predictBtn.disabled = true;
+            predictBtn.innerHTML = '<span>🔄</span><span>Analizando...</span>';
+            loading.style.display = 'block';
+            dashboard.style.display = 'none';
+
+            try {
+                console.log('🔮 Iniciando predicción de tendencias...');
+                
+                const prompt = buildTrendPredictionPrompt();
+                const response = await callGeminiForTrends(prompt);
+                const trendsData = processTrendsResponse(response);
+                
+                displayTrendsResults(trendsData);
+                
+                TrendPredictor.currentTrends = trendsData;
+                TrendPredictor.lastUpdate = new Date();
+                
+                console.log('✅ Predicción completada exitosamente');
+                
+            } catch (error) {
+                console.error('❌ Error en predicción:', error);
+                alert(`Error generando predicción: ${error.message}`);
+            } finally {
+                predictBtn.disabled = false;
+                predictBtn.innerHTML = '<span>🔮</span><span>Predecir Tendencias Explosivas</span>';
+                loading.style.display = 'none';
+            }
+        }
+
+        // CONSTRUIR PROMPT ESPECIALIZADO
+        function buildTrendPredictionPrompt() {
+            const { nicho, mercado, ventana, tipo, sensibilidad } = TrendPredictor.config;
+            
+            return `Actúa como EXPERTO EN TREND FORECASTING con 15+ años detectando productos explosivos ANTES que se saturen los mercados.
+
+MISIÓN: Predecir tendencias explosivas en el nicho "${nicho}" para el mercado "${mercado}" en una ventana de ${ventana} días.
+
+METODOLOGÍA DE ANÁLISIS:
+1. MOMENTUM DETECTION: Productos/keywords con crecimiento acelerado
+2. PAIN POINT ANALYSIS: Problemas emergentes sin solución masiva
+3. SEARCH VOLUME TRENDS: Queries con curva exponencial
+4. SENTIMENT ANALYSIS: Buzzwords con sentimiento positivo creciente
+5. MARKET GAP IDENTIFICATION: Demanda alta + oferta baja
+
+CONFIGURACIÓN ESPECÍFICA:
+- Tipo de trend: ${tipo}
+- Sensibilidad: ${sensibilidad}
+- Ventana temporal: ${ventana} días
+- Mercado objetivo: ${mercado}
+
+FORMATO OBLIGATORIO DE RESPUESTA:
+
+=== TRENDING ALERT ===
+TIPO: [PRODUCTO/KEYWORD/NICHO]
+NOMBRE: [Nombre específico del trend]
+GROWTH_RATE: [XXX]% en ${ventana} días
+VOLUME_ACTUAL: [XX,XXX] búsquedas/mes
+MOMENTUM_SCORE: [XX]/100
+OPPORTUNITY_WINDOW: [XX] días restantes
+SATURATION_RISK: [BAJO/MEDIO/ALTO]
+ACTION_REQUIRED: [ENTRAR_YA/PREPARARSE/OBSERVAR]
+
+DESCRIPCION:
+[Por qué está trending, qué está causando el crecimiento]
+
+PROFIT_POTENTIAL:
+[Estimación realista de earnings diarios/mensuales]
+
+ENTRY_STRATEGY:
+[Cómo capitalizar esta tendencia específicamente]
+
+COMPETITION_LEVEL:
+[BAJO/MEDIO/ALTO + justificación]
+
+KEYWORDS_RELACIONADAS:
+[5-7 keywords de apoyo con momentum]
+
+=== FIN ALERT ===
+
+ANALIZAR Y GENERAR 5-7 TRENDING ALERTS diferentes que cumplan:
+✅ Score de oportunidad 60+ (según sensibilidad ${sensibilidad})
+✅ Ventana de oportunidad realista
+✅ Específicos al nicho "${nicho}"
+✅ Actionables inmediatamente
+✅ Con datos de momentum verificables
+
+INCLUIR TAMBIÉN:
+
+MARKET_INTELLIGENCE:
+- Nichos emergentes relacionados al principal
+- Gaps de mercado detectados
+- Productos que van a explotar próximamente
+- Keywords que están subiendo silenciosamente
+
+TIMING_ANALYSIS:
+- Cuándo entrar exactamente
+- Cuánto tiempo dura la oportunidad
+- Señales para salir antes de saturación
+
+IMPORTANTE: Ser ultra-específico, con datos realistas y oportunidades REALMENTE explotables en ${ventana} días.`;
+        }
+
+        // LLAMADA A GEMINI API
+        async function callGeminiForTrends(prompt) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${TrendPredictor.apiKey}`;
+            
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{ text: prompt }]
+                    }],
+                    generationConfig: {
+                        temperature: 0.8,
+                        maxOutputTokens: 8192,
+                        topP: 0.9,
+                        topK: 40
+                    }
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`API Error: ${response.status} ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            
+            if (!data.candidates || !data.candidates[0] || !data.candidates[0].content) {
+                throw new Error('Respuesta de API incompleta');
+            }
+
+            return data.candidates[0].content.parts[0].text;
+        }
+
+        // PROCESAR RESPUESTA
+        function processTrendsResponse(respuesta) {
+            console.log('🔄 Procesando respuesta de trends...');
+            
+            const trends = [];
+            const trendMatches = respuesta.match(/=== TRENDING ALERT ===([\s\S]*?)=== FIN ALERT ===/g);
+            
+            if (trendMatches && trendMatches.length > 0) {
+                trendMatches.forEach((match, index) => {
+                    const trend = extractTrendData(match, index + 1);
+                    if (trend.nombre && trend.momentumScore >= TrendPredictor.config.scoreMinimo) {
+                        trends.push(trend);
+                    }
+                });
+            }
+            
+            console.log(`✅ ${trends.length} trends procesados exitosamente`);
+            
+            return {
+                trends,
+                respuestaCompleta: respuesta
+            };
+        }
+
+        // EXTRAER DATOS DE TREND
+        function extractTrendData(texto, numero) {
+            const trend = {
+                id: numero,
+                nombre: '',
+                tipo: '',
+                growthRate: '',
+                volumeActual: '',
+                momentumScore: 0,
+                opportunityWindow: '',
+                saturationRisk: '',
+                actionRequired: '',
+                descripcion: '',
+                profitPotential: '',
+                entryStrategy: '',
+                competitionLevel: '',
+                keywordsRelacionadas: ''
+            };
+            
+            const extractors = [
+                { field: 'tipo', regex: /TIPO:\s*([^\n]+)/i },
+                { field: 'nombre', regex: /NOMBRE:\s*([^\n]+)/i },
+                { field: 'growthRate', regex: /GROWTH_RATE:\s*([^\n]+)/i },
+                { field: 'volumeActual', regex: /VOLUME_ACTUAL:\s*([^\n]+)/i },
+                { field: 'momentumScore', regex: /MOMENTUM_SCORE:\s*(\d+)/i },
+                { field: 'opportunityWindow', regex: /OPPORTUNITY_WINDOW:\s*([^\n]+)/i },
+                { field: 'saturationRisk', regex: /SATURATION_RISK:\s*([^\n]+)/i },
+                { field: 'actionRequired', regex: /ACTION_REQUIRED:\s*([^\n]+)/i },
+                { field: 'descripcion', regex: /DESCRIPCION:\s*([\s\S]*?)(?=PROFIT_POTENTIAL:|$)/i },
+                { field: 'profitPotential', regex: /PROFIT_POTENTIAL:\s*([\s\S]*?)(?=ENTRY_STRATEGY:|$)/i },
+                { field: 'entryStrategy', regex: /ENTRY_STRATEGY:\s*([\s\S]*?)(?=COMPETITION_LEVEL:|$)/i },
+                { field: 'competitionLevel', regex: /COMPETITION_LEVEL:\s*([\s\S]*?)(?=KEYWORDS_RELACIONADAS:|$)/i },
+                { field: 'keywordsRelacionadas', regex: /KEYWORDS_RELACIONADAS:\s*([\s\S]*?)(?==== FIN ALERT|$)/i }
+            ];
+            
+            extractors.forEach(({ field, regex }) => {
+                const match = texto.match(regex);
+                if (match) {
+                    if (field === 'momentumScore') {
+                        trend[field] = parseInt(match[1]) || 0;
+                    } else {
+                        trend[field] = match[1].trim();
+                    }
+                }
+            });
+            
+            return trend;
+        }
+
+        // MOSTRAR RESULTADOS
+        function displayTrendsResults(data) {
+            const { trends } = data;
+            
+            document.getElementById('trendsDashboard').style.display = 'block';
+            displayTrendAlerts(trends);
+            displayTrendCards(trends);
+            document.getElementById('trendsDashboard').scrollIntoView({ behavior: 'smooth' });
+            
+            console.log(`📊 Dashboard actualizado con ${trends.length} trends`);
+        }
+
+        // MOSTRAR ALERTS
+        function displayTrendAlerts(trends) {
+            const alertsContainer = document.getElementById('alertsContainer');
+            alertsContainer.innerHTML = '';
+            
+            const generalAlert = document.createElement('div');
+            generalAlert.className = 'trend-alert';
+            generalAlert.innerHTML = `
+                🔥 ${trends.length} OPORTUNIDADES EXPLOSIVAS DETECTADAS en ${TrendPredictor.config.nicho.toUpperCase()} 
+                | Ventana: ${TrendPredictor.config.ventana} días | Mercado: ${TrendPredictor.config.mercado}
+            `;
+            alertsContainer.appendChild(generalAlert);
+            
+            trends.filter(t => t.momentumScore >= 80).forEach(trend => {
+                const alert = document.createElement('div');
+                alert.className = 'trend-opportunity';
+                alert.innerHTML = `
+                    <div class="opportunity-title">⚡ ALERTA: ${trend.nombre}</div>
+                    <div class="opportunity-desc">Score: ${trend.momentumScore}/100 | ${trend.actionRequired} | ${trend.opportunityWindow}</div>
+                `;
+                alertsContainer.appendChild(alert);
+            });
+        }
+
+        // MOSTRAR CARDS
+        function displayTrendCards(trends) {
+            const trendsGrid = document.getElementById('trendsGrid');
+            trendsGrid.innerHTML = '';
+            
+            trends.forEach(trend => {
+                const card = createTrendCard(trend);
+                trendsGrid.appendChild(card);
+            });
+        }
+
+        // En trend-predictor.html, actualiza la función createTrendCard:
+            function createTrendCard(trend) {
+                const card = document.createElement('div');
+                card.className = 'trend-card';
+                
+                const scoreColor = trend.momentumScore >= 80 ? '#48bb78' : 
+                                trend.momentumScore >= 60 ? '#fbbf24' : '#f56565';
+                
+                const actionColor = trend.actionRequired.includes('ENTRAR_YA') ? '#ef4444' :
+                                trend.actionRequired.includes('PREPARARSE') ? '#f59e0b' : '#6b7280';
+                
+                // ID único para cada card
+                const cardId = `trend-card-${trend.id}`;
+                
+                card.innerHTML = `
+                    <div class="trend-header">
+                        <div class="trend-type">${trend.tipo}</div>
+                        <div class="trend-score" style="color: ${scoreColor}">${trend.momentumScore}/100</div>
+                    </div>
+                    
+                    <div class="trend-title">${trend.nombre}</div>
+                    
+                    <div class="trend-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">${trend.growthRate}</div>
+                            <div class="stat-label">Growth Rate</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${trend.volumeActual}</div>
+                            <div class="stat-label">Volume Actual</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${trend.opportunityWindow}</div>
+                            <div class="stat-label">Ventana</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">${trend.saturationRisk}</div>
+                            <div class="stat-label">Riesgo</div>
+                        </div>
+                    </div>
+                    
+                    <div class="trend-content ${cardId}" data-expanded="false">
+                        <div class="trend-section">
+                            <strong>Descripción:</strong><br>
+                            <span class="content-preview">${trend.descripcion.substring(0, 150)}...</span>
+                            <span class="content-full" style="display: none;">${trend.descripcion}</span>
+                        </div>
+                        
+                        <div class="trend-section">
+                            <strong>💰 Potencial:</strong><br>
+                            <span class="content-preview">${trend.profitPotential.substring(0, 100)}...</span>
+                            <span class="content-full" style="display: none;">${trend.profitPotential}</span>
+                        </div>
+                        
+                        <div class="trend-section">
+                            <strong>🎯 Estrategia:</strong><br>
+                            <span class="content-preview">${trend.entryStrategy.substring(0, 120)}...</span>
+                            <span class="content-full" style="display: none;">${trend.entryStrategy}</span>
+                        </div>
+                        
+                        <div class="trend-section">
+                            <strong>🔑 Keywords:</strong><br>
+                            <small>${trend.keywordsRelacionadas}</small>
+                        </div>
+                    </div>
+                    
+                    <button class="expand-btn" onclick="toggleCardExpansion('${cardId}')">
+                        <span class="expand-text">Ver información completa</span>
+                        <span class="collapse-text" style="display: none;">Ver menos</span>
+                        <span class="expand-icon">▼</span>
+                    </button>
+                    
+                    <div class="trend-action" style="background: rgba(${actionColor === '#ef4444' ? '239, 68, 68' : actionColor === '#f59e0b' ? '245, 158, 11' : '107, 114, 128'}, 0.2); color: ${actionColor};">
+                        ${trend.actionRequired.replace(/_/g, ' ')}
+                    </div>
+                `;
+                
+                return card;
+            }
+
+            // Agregar función para expandir/colapsar
+            function toggleCardExpansion(cardId) {
+                const content = document.querySelector(`.${cardId}`);
+                const isExpanded = content.dataset.expanded === 'true';
+                
+                // Toggle previews y full content
+                content.querySelectorAll('.content-preview').forEach(preview => {
+                    preview.style.display = isExpanded ? 'inline' : 'none';
+                });
+                
+                content.querySelectorAll('.content-full').forEach(full => {
+                    full.style.display = isExpanded ? 'none' : 'inline';
+                });
+                
+                // Toggle button text
+                const button = event.currentTarget;
+                button.querySelector('.expand-text').style.display = isExpanded ? 'inline' : 'none';
+                button.querySelector('.collapse-text').style.display = isExpanded ? 'none' : 'inline';
+                button.querySelector('.expand-icon').style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(180deg)';
+                
+                content.dataset.expanded = !isExpanded;
+            }
+
+        // Reemplaza la función exportTrends completa:
+            function exportTrends() {
+                if (!TrendPredictor.currentTrends || TrendPredictor.currentTrends.trends.length === 0) {
+                    alert('⚠️ No hay trends para exportar');
+                    return;
+                }
+                
+                let reporte = `🔮 REPORTE DE TENDENCIAS EXPLOSIVAS\n`;
+                reporte += `${'='.repeat(50)}\n`;
+                reporte += `📅 Fecha: ${new Date().toLocaleDateString()}\n`;
+                reporte += `🎯 Nicho: ${TrendPredictor.config.nicho}\n`;
+                reporte += `🌍 Mercado: ${TrendPredictor.config.mercado}\n`;
+                reporte += `⏰ Ventana: ${TrendPredictor.config.ventana} días\n`;
+                reporte += `📊 Score Mínimo: ${TrendPredictor.config.scoreMinimo}+\n`;
+                reporte += `${'='.repeat(50)}\n\n`;
+                
+                // Resumen ejecutivo
+                reporte += `📊 RESUMEN EJECUTIVO:\n`;
+                reporte += `Total de oportunidades detectadas: ${TrendPredictor.currentTrends.trends.length}\n`;
+                const urgentes = TrendPredictor.currentTrends.trends.filter(t => t.actionRequired.includes('ENTRAR_YA')).length;
+                reporte += `Oportunidades urgentes (ENTRAR YA): ${urgentes}\n`;
+                reporte += `\n${'='.repeat(50)}\n\n`;
+                
+                // Exportar CADA trend con TODA la información
+                TrendPredictor.currentTrends.trends.forEach((trend, index) => {
+                    reporte += `🔥 TENDENCIA #${index + 1}: ${trend.nombre}\n`;
+                    reporte += `${'─'.repeat(40)}\n\n`;
+                    
+                    // Información básica
+                    reporte += `📊 MÉTRICAS PRINCIPALES:\n`;
+                    reporte += `   • Tipo: ${trend.tipo}\n`;
+                    reporte += `   • Score: ${trend.momentumScore}/100\n`;
+                    reporte += `   • Growth Rate: ${trend.growthRate}\n`;
+                    reporte += `   • Volumen Actual: ${trend.volumeActual}\n`;
+                    reporte += `   • Ventana de Oportunidad: ${trend.opportunityWindow}\n`;
+                    reporte += `   • Riesgo de Saturación: ${trend.saturationRisk}\n`;
+                    reporte += `   • ACCIÓN REQUERIDA: ${trend.actionRequired.replace(/_/g, ' ')}\n\n`;
+                    
+                    // Descripción COMPLETA
+                    reporte += `📝 DESCRIPCIÓN COMPLETA:\n`;
+                    reporte += `${trend.descripcion}\n\n`;
+                    
+                    // Potencial COMPLETO
+                    reporte += `💰 POTENCIAL DE PROFIT COMPLETO:\n`;
+                    reporte += `${trend.profitPotential}\n\n`;
+                    
+                    // Estrategia COMPLETA
+                    reporte += `🎯 ESTRATEGIA DE ENTRADA COMPLETA:\n`;
+                    reporte += `${trend.entryStrategy}\n\n`;
+                    
+                    // Nivel de competencia COMPLETO
+                    reporte += `🏆 ANÁLISIS DE COMPETENCIA:\n`;
+                    reporte += `${trend.competitionLevel}\n\n`;
+                    
+                    // Keywords relacionadas
+                    reporte += `🔑 KEYWORDS RELACIONADAS:\n`;
+                    reporte += `${trend.keywordsRelacionadas}\n\n`;
+                    
+                    reporte += `${'='.repeat(50)}\n\n`;
+                });
+                
+                // Footer con recomendaciones
+                reporte += `💡 RECOMENDACIONES FINALES:\n`;
+                reporte += `1. Prioriza las oportunidades marcadas como "ENTRAR_YA"\n`;
+                reporte += `2. Valida la demanda real con herramientas como Google Trends\n`;
+                reporte += `3. Comienza con presupuesto pequeño para testear\n`;
+                reporte += `4. Monitorea constantemente el nivel de saturación\n\n`;
+                
+                reporte += `📍 Generado por MarketInsight Pro - Trend Predictor Enterprise\n`;
+                reporte += `🕐 ${new Date().toLocaleTimeString()}\n`;
+                
+                // Crear y descargar archivo
+                const blob = new Blob([reporte], { type: 'text/plain;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                
+                // Nombre descriptivo del archivo
+                const fecha = new Date().toISOString().split('T')[0];
+                const nicho = TrendPredictor.config.nicho.replace(/\s+/g, '-').toLowerCase();
+                a.download = `trends-${nicho}-${fecha}-completo.txt`;
+                
+                a.click();
+                URL.revokeObjectURL(url);
+                
+                console.log('📊 Reporte completo exportado exitosamente');
+                
+                // Notificación visual
+                const notification = document.createElement('div');
+                notification.className = 'export-notification';
+                notification.innerHTML = '✅ ¡Reporte completo exportado con éxito!';
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: #48bb78;
+                    color: white;
+                    padding: 15px 25px;
+                    border-radius: 8px;
+                    font-weight: bold;
+                    z-index: 10000;
+                    animation: slideInRight 0.3s ease-out;
+                `;
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.opacity = '0';
+                    setTimeout(() => notification.remove(), 300);
+                }, 3000);
+            }
+
+        // REFRESCAR TRENDS
+        function refreshTrends() {
+            if (confirm('¿Actualizar tendencias? Esto puede tomar 30-60 segundos.')) {
+                predictTrends();
+            }
+        }
+
+        // INICIALIZACIÓN
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🔮 Trend Predictor inicializado');
+            
+            // Cargar configuración desde MarketInsight Pro
+            const mainNicho = localStorage.getItem('main_nicho');
+            const mainMercado = localStorage.getItem('main_mercado');
+            
+            if (mainNicho) {
+                document.getElementById('nichoBase').value = mainNicho;
+            }
+            
+            if (mainMercado) {
+                document.getElementById('mercadoGeo').value = mainMercado;
+            }
+            
+            // Auto-poblar desde URL params
+            const urlParams = new URLSearchParams(window.location.search);
+            const nicho = urlParams.get('nicho');
+            const mercado = urlParams.get('mercado');
+            
+            if (nicho) document.getElementById('nichoBase').value = nicho;
+            if (mercado) document.getElementById('mercadoGeo').value = mercado;
+        });
+    </script>
+</body>
+</html>

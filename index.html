@@ -48,6 +48,13 @@
                 <p style="color: #a0aec0; margin-bottom: 15px;">Ingresa tu API Key de Google AI Studio:</p>
                 <div class="input-group">
                     <input type="password" id="apiKey" placeholder="Tu API Key aquí..." />
+                    <select id="apiProvider" style="margin-left:8px;">
+                      <option value="gemini">Google Gemini</option>
+                      <option value="openai">OpenAI GPT-3.5</option>
+                      <option value="together">Together.ai (Mistral 7B)</option>
+                      <option value="cohere">Cohere (Command-R)</option>
+                    </select>
+                    <a id="getKeyLink" href="https://aistudio.google.com/app/apikey" target="_blank" style="margin-left:8px;font-size:0.9rem;">Obtener API Key</a>
                     <button class="btn btn-warning" id="saveBtn">💾 Guardar</button>
                     <button class="btn btn-secondary" id="testBtn">🧪 Probar</button>
                 </div>
@@ -1044,7 +1051,6 @@
     </div>
 </div>
 
-    <script src="script.js"></script>
-    <script src="avatar-sync-system.js"></script>
+    <script type="module" src="/src/main.ts"></script>
 </body>
 </html>
