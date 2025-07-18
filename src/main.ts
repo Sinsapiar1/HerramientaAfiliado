@@ -141,6 +141,13 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
     request: async (prompt: string, apiKey: string) => {
       const MAX_RETRY = 2;
       const isSimpleTest = /Responde\s+solo\s+con\s+\"OK\"/i.test(prompt);
+      const buildMessage = (retry: boolean) => {
+        const base = retry
+          ? 'FORMATO INCORRECTO. Repite EXACTAMENTE usando la plantilla.'
+          : 'Eres un analista senior de marketing de afiliados. Devuelve EXACTAMENTE 3 productos REALES con la plantilla pedida. Cada producto con NOMBRE único. No uses placeholders ni frases de incertidumbre. Idioma: Español.';
+        return `${base}\n${compactPrompt(prompt)}`;
+      };
+
       const makeCall = async (attempt=0): Promise<string> => {
       const response = await fetch('https://api.cohere.ai/v1/chat', {
         method: 'POST',
@@ -150,7 +157,7 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
         },
         body: JSON.stringify({
           model: 'command',
-          message: attempt>0 ? `FORMATO INCORRECTO. Repite EXACTAMENTE usando la plantilla.\n${compactPrompt(prompt)}` : compactPrompt(prompt),
+          message: buildMessage(attempt>0),
           temperature: 0.2,
           max_tokens: 1024,
         }),
