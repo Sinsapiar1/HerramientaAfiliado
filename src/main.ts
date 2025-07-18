@@ -149,7 +149,7 @@ const PROVIDERS: Record<ProviderId, ProviderConfig> = {
           Authorization: `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
-          model: 'command-r',
+          model: 'command',
           message: attempt>0 ? `FORMATO INCORRECTO. Repite EXACTAMENTE usando la plantilla.\n${compactPrompt(prompt)}` : compactPrompt(prompt),
           temperature: 0.2,
           max_tokens: 4000,
