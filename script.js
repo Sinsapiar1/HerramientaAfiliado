@@ -7409,3 +7409,8 @@ if (typeof window !== 'undefined') {
   window.AppState = AppState;
   window.Utils = Utils;
 }
+// === EXPORTAR A WINDOW PARA BOTONES HTML ===
+if (typeof window !== 'undefined') {
+  window.CopyTemplateSystem = CopyTemplateSystem;
+  window.ProfitCalculator  = ProfitCalculator;
+}
