@@ -166,3 +166,90 @@ El repositorio ya está plenamente migrado a Vite + TypeScript con selector mult
 ---
 
 *Última actualización: Ene 2025 – MarketInsight Pro v3.0*
+
+---
+
+## 11. Funcionalidades detalladas (enero 2025)
+
+| # | Sistema | Ubicación | Estado | Descripción breve |
+|---|---------|-----------|--------|-------------------|
+| 1 | **Detector de Productos** | `script.js` ∼ línea 120 → 1800 | ✅ | Genera exactamente 3 productos únicos, métricas + pain points; usa `APIManager.callGemini` (o proveedor activo). |
+| 2 | **Offer Validator** | `script.js` ∼ línea 4000 → 4600 | ✅ | Simula ClickBank/ShareASale, extrae Gravity, EPC, CVR y veredicto. |
+| 3 | **Creative Spy** | `script.js` ∼ 4600 → 4950 | ✅ | Extrae hooks, ángulos de venta, métricas estimadas y audiencias. |
+| 4 | **Copy Templates System v4** | `script.js` ∼ 6180 → 7410 | ✅ | Genera copy (FB, Google, Email), IA específica y A/B testing; expuesto en ventana modal. |
+| 5 | **Profit Calculator v2** | `script.js` ∼ 4960 → 5170 + ∼ 7050 | ✅ | Calcula escenarios Conservador / Realista / Optimista y grafica escalamiento. |
+| 6 | **Trend Predictor** | `public/trend-predictor.html` | ✅ | Pop-up Google Trends (lógica simplificada). |
+| 7 | **Funnel Architect** | `public/funnel-architect-standalone.html` | ✅ | Constructor visual de funnels, exporta HTML. |
+| 8 | **Campaign Builder** | (carpeta futura) | ⏳ | UI placeholder en HTML, sin lógica. |
+
+---
+
+## 12. Estructura de datos (runtime)
+
+> Aun no se ha movido a `src/types/`; las interfaces viven de forma implícita en `script.js`. Se listan aquí para facilitar la futura extracción a TypeScript.
+
+```ts
+interface AppState {
+  apiKey: string;
+  apiProvider: 'gemini' | 'openai' | 'together' | 'cohere';
+  productosDetectados: Product[];
+  currentAnalysis?: Analysis;
+  profitScenarios?: ProfitScenario[];
+  validationResults?: ValidationResult[];
+  spyResults?: SpyResult[];
+}
+
+interface Product {
+  id: string;
+  nombre: string;
+  descripcion: string;
+  precio: string;
+  score: string;
+  gravity: string;
+  epc: string;
+  cvr: string;
+  painPoints: string[];
+  emociones: string[];
+  triggers: string[];
+  nicho: string;
+  timestamp: number;
+}
+// ...see hand-off v2.x for rest (unchanged-pending)
+```
+
+---
+
+## 13. Testing Checklist (manual)
+
+1. **Build** – `npm run build` debe compilar sin warnings; carpeta `dist/` creada.  
+2. **Dev Server** – `npm run dev` abre `http://localhost:5173/`; HMR funciona al editar `main.ts`.  
+3. **Multi-Provider** – cambiar proveedor en selector y lanzar prompt de prueba "Responde solo con \"OK\""; debe devolver OK sin validación.  
+4. **Detector de Productos** – generar 3 productos únicos y sin duplicados.  
+5. **Offer Validator + Spy + Profit + Copy** – cada botón añade sección correspondiente y no duplica.  
+6. **Trend/Funnel** – enlaces en menú abren pop-ups sin 404.  
+7. **Responsivo** – index.html se visualiza bien a 375 px / 768 px / 1200 px.  
+8. **Legacy exposed** – en consola: `window.CopyTemplateSystem` y `window.ProfitCalculator` deben existir.  
+
+*(Se recomienda automatizar estas pruebas con Vitest + Playwright en v4.0)*
+
+---
+
+## 14. Troubleshooting rápido
+
+| Problema | Síntoma | Solución |
+|----------|---------|----------|
+| **API Key inválida** | Pantalla gris + banner | Revisar formato: Google = `AIza...`, OpenAI = `sk-...`, Together = 64 hex, Cohere = 40 alfa-num. |
+| **404 en GitHub Pages** | Navega a `/.../index.html` ok, pero assets 404 | Confirmar `base:'/HerramientaAfiliado/'` en `vite.config.js` antes de build. |
+| **Puerto ocupado** | `npm run dev` falla | `npm run dev -- --port 3000` |
+| **HMR no recarga** | Cambios en `script.js` no se reflejan | Al ser legacy vanilla, recargar manualmente; migración a módulos pendiente. |
+| **Cohere 400: tokens** | Prompt grande provoca 400 | Compactar prompt (función `compactPrompt()` ya implementada). |
+
+---
+
+## 15. Business Value (resumido)
+
+La suite reemplaza 6 herramientas SaaS (AdSpy, ClickBank Analytics, Funnel Builder, etc.) por ≈ **$1 000 USD/mes** en valor. Coste variable actual: **$20-50 USD/mes** en llamadas IA.
+
+---
+
+*(Sección añadida para enriquecer el hand-off)*
