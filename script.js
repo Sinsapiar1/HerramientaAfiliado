@@ -7416,3 +7416,25 @@ if (typeof window !== 'undefined') {
   window.CopyTemplateSystem = CopyTemplateSystem;
   window.ProfitCalculator  = ProfitCalculator;
 }
+
+/* ─── PONER AL FINAL DE script.js, justo debajo de
+   window.CopyTemplateSystem = CopyTemplateSystem;  */
+
+// Alias para compatibilidad con botones antiguos
+if (typeof window.generarMasVariaciones === 'undefined') {
+  window.generarMasVariaciones = function (index, nicho) {
+    if (window.CopyTemplateSystem?.generateABTemplate) {
+      return window.CopyTemplateSystem.generateABTemplate(index, nicho);
+    }
+    console.error('generateABTemplate no disponible');
+  };
+}
+
+if (typeof window.exportarContenidoAFunnels === 'undefined') {
+  window.exportarContenidoAFunnels = function (index) {
+    if (window.FunnelArchitect?.importFromCopyTemplate) {
+      return window.FunnelArchitect.importFromCopyTemplate(index);
+    }
+    console.error('FunnelArchitect no disponible');
+  };
+}
